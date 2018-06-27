@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Android Hub</string>
+    <string name="profile_label">Edit Profile</string>
+    <string name="my_bookmarks_label">My Bookmarks</string>
+    <string name="find_a_meetup_label">Find a Meetup</string>
+    <string name="surprise_me_label">Surprise Me</string>
+    <string name="profile_picture_image_description">Profile Picture Image</string>
+    <string name="read_label">Read</string>
+    <string name="watch_label">Watch</string>
+    <string name="listen_label">Listen</string>
+</resources>
