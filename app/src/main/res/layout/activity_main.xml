@@ -4,12 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/constrain_layout_main"
+            android:id="@+id/constraint_layout_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -23,16 +24,19 @@
                 app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
                 <android.support.design.widget.TabItem
+                    android:id="@+id/tab_read"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/read_label" />
 
                 <android.support.design.widget.TabItem
+                    android:id="@+id/tab_watch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/watch_label" />
 
                 <android.support.design.widget.TabItem
+                    android:id="@+id/tab_listen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/listen_label" />
@@ -65,6 +69,7 @@
         </android.support.constraint.ConstraintLayout>
 
         <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
