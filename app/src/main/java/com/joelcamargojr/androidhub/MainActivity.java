@@ -21,6 +21,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Dagger injection
+        ((AndroidHubApplication) getApplication()).getAppComponent().inject(this);
+
         // create data binding instance for views
         final ActivityMainBinding binding =
                 DataBindingUtil.setContentView(this, R.layout.activity_main);
