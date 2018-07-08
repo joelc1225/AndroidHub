@@ -1,7 +1,5 @@
 package com.joelcamargojr.androidhub.di;
 
-import android.app.Application;
-
 import com.joelcamargojr.androidhub.ListenFragment;
 import com.joelcamargojr.androidhub.MainActivity;
 import com.joelcamargojr.androidhub.ReadFragment;
@@ -19,6 +17,4 @@ public interface AppComponent {
     void inject(ReadFragment readFragment);
     void inject(WatchFragment watchFragment);
     void inject(MainActivity mainActivity);
-
-    Application application();
 }

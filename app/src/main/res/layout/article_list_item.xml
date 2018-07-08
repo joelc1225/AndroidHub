@@ -21,12 +21,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/titleTv"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="bottom|center"
             android:layout_margin="16dp"
-            android:text="THIS IS THE ARTCILE DESCRIPTION" />
+            android:text="THIS IS THE ARTCILE TITLE"
+            android:gravity="center"/>
 
         <ImageView
             android:id="@+id/imageView"
