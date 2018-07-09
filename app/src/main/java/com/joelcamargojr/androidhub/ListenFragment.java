@@ -13,7 +13,8 @@ public class ListenFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tab_fragment_layout, container, false);
-        return view;
+        return inflater.inflate(R.layout.tab_fragment_layout, container, false);
+
+
     }
 }

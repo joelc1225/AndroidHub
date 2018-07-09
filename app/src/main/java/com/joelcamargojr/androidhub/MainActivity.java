@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -13,10 +14,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.joelcamargojr.androidhub.databinding.ActivityMainBinding;
+import com.joelcamargojr.androidhub.fragment.FragmentPagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
     DrawerLayout mDrawerLayout;
+    private FragmentStatePagerAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +39,10 @@ public class MainActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.nav_menu_icon);
 
+        // instantiates drawer to implement on optionsItemSelected
         mDrawerLayout = binding.drawerLayout;
 
+        // handles the logic for the clicks within the drawer
         binding.navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -47,6 +52,12 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        // TODO create the tab title inside the pager adapter
+        // plug up pager adapter and viewpager
+        mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager());
+        binding.viewPager.setAdapter(mPagerAdapter);
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
     }
 
     @Override
