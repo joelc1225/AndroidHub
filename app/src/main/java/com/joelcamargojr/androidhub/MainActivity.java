@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO create the tab title inside the pager adapter
         // plug up pager adapter and viewpager
-        mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager());
+        mPagerAdapter = new FragmentPagerAdapter(getSupportFragmentManager(), this);
         binding.viewPager.setAdapter(mPagerAdapter);
         binding.tabLayout.setupWithViewPager(binding.viewPager);
     }
