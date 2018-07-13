@@ -4,11 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.joelcamargojr.androidhub.model.Article;
+import com.joelcamargojr.androidhub.recyclerview.ReadRecyclerviewAdapter;
 
 import org.parceler.Parcels;
 
@@ -21,11 +24,26 @@ public class ReadFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        // Gets arguments for fragment
         Bundle bundle = getArguments();
+
+        // inflates view
+        View view = inflater.inflate(R.layout.read_fragment, container, false);
+
+        // Checks if arguments passed in are valid before setup
         if (bundle != null) {
             Timber.d("BUNDLE NOT NULL!");
             ArrayList<Article> articles = Parcels.unwrap(bundle.getParcelable("articleList"));
+            RecyclerView recyclerView = view.findViewById(R.id.recy_read_frag);
+            ReadRecyclerviewAdapter adapter = new ReadRecyclerviewAdapter(articles, getContext());
+            recyclerView.setAdapter(adapter);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(layoutManager);
+        } else {
+            Timber.d("BUNDLE IS NULL!!!!!");
         }
-        return inflater.inflate(R.layout.read_fragment, container, false);
+
+        return view;
     }
 }
