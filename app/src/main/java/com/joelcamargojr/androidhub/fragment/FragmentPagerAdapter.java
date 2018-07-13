@@ -6,10 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
-import com.joelcamargojr.androidhub.ListenFragment;
 import com.joelcamargojr.androidhub.R;
-import com.joelcamargojr.androidhub.ReadFragment;
-import com.joelcamargojr.androidhub.WatchFragment;
 import com.joelcamargojr.androidhub.model.Article;
 import com.joelcamargojr.androidhub.data.FakeDataSource;
 

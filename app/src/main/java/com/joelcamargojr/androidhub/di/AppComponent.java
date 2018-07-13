@@ -1,9 +1,9 @@
 package com.joelcamargojr.androidhub.di;
 
-import com.joelcamargojr.androidhub.ListenFragment;
+import com.joelcamargojr.androidhub.fragment.ListenFragment;
 import com.joelcamargojr.androidhub.MainActivity;
-import com.joelcamargojr.androidhub.ReadFragment;
-import com.joelcamargojr.androidhub.WatchFragment;
+import com.joelcamargojr.androidhub.fragment.ReadFragment;
+import com.joelcamargojr.androidhub.fragment.WatchFragment;
 
 import javax.inject.Singleton;
 

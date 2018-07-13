@@ -1,4 +1,4 @@
-package com.joelcamargojr.androidhub;
+package com.joelcamargojr.androidhub.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.joelcamargojr.androidhub.R;
 import com.joelcamargojr.androidhub.model.Article;
 import com.joelcamargojr.androidhub.recyclerview.WatchRecyclerviewAdapter;
 
