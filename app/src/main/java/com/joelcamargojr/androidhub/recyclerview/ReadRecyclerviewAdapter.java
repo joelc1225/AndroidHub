@@ -2,6 +2,7 @@ package com.joelcamargojr.androidhub.recyclerview;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.joelcamargojr.androidhub.R;
 import com.joelcamargojr.androidhub.model.Article;
@@ -18,10 +20,12 @@ import java.util.ArrayList;
 
 import timber.log.Timber;
 
-public class ReadRecyclerviewAdapter extends RecyclerView.Adapter<ReadRecyclerviewAdapter.ViewHolder> {
+public class ReadRecyclerviewAdapter extends RecyclerView.Adapter<ReadRecyclerviewAdapter.ViewHolder>
+        implements View.OnClickListener {
 
     private ArrayList<Article> articles;
     private Context context;
+    RecyclerView recyclerView;
 
     // Constructor
     public ReadRecyclerviewAdapter(ArrayList<Article> articles, Context context) {
@@ -34,15 +38,18 @@ public class ReadRecyclerviewAdapter extends RecyclerView.Adapter<ReadRecyclervi
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.article_list_item, parent, false);
+
+        recyclerView = parent.getRootView().findViewById(R.id.recy_read_frag);
+        itemView.setOnClickListener(this);
         return new ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
 
         // Gets current Article and parses out info from it
         Article currentArticle = articles.get(position);
-        String title = currentArticle.getTitle();
+        final String title = currentArticle.getTitle();
         String imageUrl = currentArticle.getImageUrl();
 
         // checks if string url is valid before trying to load into picasso
@@ -53,6 +60,11 @@ public class ReadRecyclerviewAdapter extends RecyclerView.Adapter<ReadRecyclervi
         }
 
         holder.titleTextview.setText(title);
+
+        for (int i = 0; i < articles.size(); i++) {
+            ViewCompat.setTransitionName(holder.imageView, title + i);
+        }
+
     }
 
     @Override
@@ -60,15 +72,25 @@ public class ReadRecyclerviewAdapter extends RecyclerView.Adapter<ReadRecyclervi
         return articles.size();
     }
 
+    // Defines onClick for each list item
+    @Override
+    public void onClick(View v) {
+        int itemPosition = recyclerView.getChildLayoutPosition(v);
+        Article item = articles.get(itemPosition);
+        Toast.makeText(context, item.getTitle(), Toast.LENGTH_SHORT).show();
+    }
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleTextview;
         public ImageView imageView;
+        public RecyclerView recyclerView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             titleTextview = itemView.findViewById(R.id.titleTv);
             imageView = itemView.findViewById(R.id.imageView);
+            recyclerView = itemView.findViewById(R.id.recy_read_frag);
         }
     }
 }
