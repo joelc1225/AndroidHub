@@ -8,12 +8,13 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/watch_frag_swipe_refresh"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="120dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recy_watch_frag"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
