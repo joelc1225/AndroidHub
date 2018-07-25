@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     DrawerLayout mDrawerLayout;
     private FragmentPagerAdapter mPagerAdapter;
+    String api_key = BuildConfig.ApiKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
