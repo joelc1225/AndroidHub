@@ -39,6 +39,7 @@ public class ReadRecyclerviewAdapter extends RecyclerView.Adapter<ReadRecyclervi
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.article_list_item, parent, false);
 
+        // instantiates our recyclerView and sets a clickListener on it
         recyclerView = parent.getRootView().findViewById(R.id.recy_read_frag);
         itemView.setOnClickListener(this);
         return new ViewHolder(itemView);
@@ -65,6 +66,14 @@ public class ReadRecyclerviewAdapter extends RecyclerView.Adapter<ReadRecyclervi
             ViewCompat.setTransitionName(holder.imageView, title + i);
         }
 
+        // sets a click listener on the source name if the user wants to explore the specific source
+        holder.sourceTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Source Title" + position, Toast.LENGTH_SHORT ).show();
+            }
+        });
+
     }
 
     @Override
@@ -72,7 +81,7 @@ public class ReadRecyclerviewAdapter extends RecyclerView.Adapter<ReadRecyclervi
         return articles.size();
     }
 
-    // Defines onClick for each list item
+    // Defines onClick for each list item in our recyclerView
     @Override
     public void onClick(View v) {
         int itemPosition = recyclerView.getChildLayoutPosition(v);
@@ -85,12 +94,14 @@ public class ReadRecyclerviewAdapter extends RecyclerView.Adapter<ReadRecyclervi
         public TextView titleTextview;
         public ImageView imageView;
         public RecyclerView recyclerView;
+        public TextView sourceTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             titleTextview = itemView.findViewById(R.id.titleTv);
             imageView = itemView.findViewById(R.id.imageView);
             recyclerView = itemView.findViewById(R.id.recy_read_frag);
+            sourceTextView = itemView.findViewById(R.id.source_name_textview);
         }
     }
 }
