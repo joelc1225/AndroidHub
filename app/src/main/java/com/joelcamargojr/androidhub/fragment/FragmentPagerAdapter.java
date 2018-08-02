@@ -7,8 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 import com.joelcamargojr.androidhub.R;
-import com.joelcamargojr.androidhub.model.Article;
 import com.joelcamargojr.androidhub.data.FakeDataSource;
+import com.joelcamargojr.androidhub.model.Article;
+import com.joelcamargojr.androidhub.model.Podcast;
 
 import org.parceler.Parcels;
 
@@ -22,7 +23,10 @@ public class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAd
     // Gets fake data and creates bundle before sending to Frags
     private ArrayList<Article> articleList = FakeDataSource.getFakeArticleList();
     private ArrayList<Article> articleList2 = FakeDataSource.getFakeArticleList2();
-    private ArrayList<Article> articleList3 = FakeDataSource.getFakeArticleList3();
+//    private ArrayList<Article> articleList3 = FakeDataSource.getFakeArticleList3();
+
+    // PODCAST TEST
+    private Podcast fragPodcast;
 
     private Bundle bundle = new Bundle();
     private Bundle bundle2 = new Bundle();
@@ -32,9 +36,10 @@ public class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAd
     private WatchFragment watchFragment = new WatchFragment();
     private ListenFragment listenFragment = new ListenFragment();
 
-    public FragmentPagerAdapter(FragmentManager fm, Context context) {
+    public FragmentPagerAdapter(FragmentManager fm, Context context, Podcast fragPodcast) {
         super(fm);
         this.mContext = context;
+        this.fragPodcast = fragPodcast;
     }
 
     @Override
@@ -43,9 +48,9 @@ public class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAd
         // puts fake test data into bundle
         bundle.putParcelable("articleList", Parcels.wrap(articleList));
         bundle2.putParcelable("articleList2", Parcels.wrap(articleList2));
-        bundle3.putParcelable("articleList3", Parcels.wrap(articleList3));
+        bundle3.putParcelable("fragPodcast", Parcels.wrap(fragPodcast));
 
-        switch (position){
+        switch (position) {
             case 0:
                 readFragment.setArguments(bundle);
                 return readFragment;

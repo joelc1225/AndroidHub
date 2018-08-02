@@ -11,21 +11,21 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.joelcamargojr.androidhub.R;
-import com.joelcamargojr.androidhub.model.Article;
+import com.joelcamargojr.androidhub.model.Episode;
+import com.joelcamargojr.androidhub.model.Podcast;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
 
 import timber.log.Timber;
 
 public class ListenRecyclerviewAdapter extends RecyclerView.Adapter<ListenRecyclerviewAdapter.ViewHolder> {
 
-    private ArrayList<Article> articles;
+    private Podcast podcast;
     private Context context;
+    private Episode currentEpisode;
 
     // Constructor
-    public ListenRecyclerviewAdapter(ArrayList<Article> articles, Context context) {
-        this.articles = articles;
+    public ListenRecyclerviewAdapter(Podcast podcast, Context context) {
+        this.podcast = podcast;
         this.context = context;
     }
 
@@ -40,10 +40,9 @@ public class ListenRecyclerviewAdapter extends RecyclerView.Adapter<ListenRecycl
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        // Gets current Article and parses out info from it
-        Article currentArticle = articles.get(position);
-        String title = currentArticle.getTitle();
-        String imageUrl = currentArticle.getImageUrl();
+        currentEpisode = podcast.episodeArrayList.get(position);
+        String title = currentEpisode.title;
+        String imageUrl = podcast.getImage();
 
         // checks if string url is valid before trying to load into picasso
         if (!TextUtils.isEmpty(imageUrl)) {
@@ -52,23 +51,26 @@ public class ListenRecyclerviewAdapter extends RecyclerView.Adapter<ListenRecycl
                     .into(holder.imageView);
         }
 
-        holder.titleTextview.setText(title);
+        holder.sourceNameTextview.setText(podcast.title);
+        holder.titleTextview.setText(currentEpisode.title);
     }
 
     @Override
     public int getItemCount() {
-        return articles.size();
+        return podcast.getEpisodeArrayList().size();
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView titleTextview;
         public ImageView imageView;
+        public TextView sourceNameTextview;
 
         public ViewHolder(View itemView) {
             super(itemView);
             titleTextview = itemView.findViewById(R.id.titleTv);
             imageView = itemView.findViewById(R.id.imageView);
+            sourceNameTextview = itemView.findViewById(R.id.source_name_textview);
         }
     }
 }

@@ -11,12 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.joelcamargojr.androidhub.R;
-import com.joelcamargojr.androidhub.model.Article;
+import com.joelcamargojr.androidhub.model.Podcast;
 import com.joelcamargojr.androidhub.recyclerview.ListenRecyclerviewAdapter;
 
 import org.parceler.Parcels;
-
-import java.util.ArrayList;
 
 import timber.log.Timber;
 
@@ -34,9 +32,9 @@ public class ListenFragment extends Fragment {
         // Checks if arguments passed in are valid before setup
         if (bundle != null) {
             Timber.d("BUNDLE NOT NULL!");
-            ArrayList<Article> articles = Parcels.unwrap(bundle.getParcelable("articleList3"));
+            Podcast fragPodcast = Parcels.unwrap(bundle.getParcelable("fragPodcast"));
             RecyclerView recyclerView = view.findViewById(R.id.recy_listen_frag);
-            ListenRecyclerviewAdapter adapter = new ListenRecyclerviewAdapter(articles, getContext());
+            ListenRecyclerviewAdapter adapter = new ListenRecyclerviewAdapter(fragPodcast, getContext());
             recyclerView.setAdapter(adapter);
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
             recyclerView.setLayoutManager(layoutManager);
