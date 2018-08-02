@@ -5,23 +5,22 @@ import org.parceler.Parcel;
 @Parcel
 public class Article {
 
-    String mTitle;
-    String mImageUrl;
+    public String title;
+    public String imageUrl;
 
     public Article (String title, String imageUrl) {
-        this.mTitle = title;
-        this.mImageUrl = imageUrl;
+        this.title = title;
+        this.imageUrl = imageUrl;
     }
 
     // Empty constructor needed by Parceler library
-    public Article() {
-    }
+    public Article() { }
 
     public String getTitle() {
-        return mTitle;
+        return title;
     }
 
     public String getImageUrl() {
-        return mImageUrl;
+        return imageUrl;
     }
 }
