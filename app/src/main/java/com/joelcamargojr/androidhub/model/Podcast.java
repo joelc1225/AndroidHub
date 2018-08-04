@@ -24,10 +24,6 @@ public class Podcast {
     @SerializedName("thumbnail")
     public String thumbnail;
 
-
-//    // empty constructor needed by Parceler
-//    public Podcast(){}
-
     @ParcelConstructor
     public Podcast(String description, String title, String image, String website, @ParcelProperty("episodes") ArrayList<Episode> episodeList, String thumbnail) {
         this.description = description;
@@ -38,28 +34,10 @@ public class Podcast {
         this.thumbnail = thumbnail;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public String getWebsite() {
-        return website;
-    }
-
+    // Needed for Parceler to handle inner customObject
     @ParcelProperty("episodes")
     public ArrayList<Episode> getEpisodeArrayList() {
         return episodeArrayList;
     }
 
-    public String getThumbnail() {
-        return thumbnail;
-    }
 }

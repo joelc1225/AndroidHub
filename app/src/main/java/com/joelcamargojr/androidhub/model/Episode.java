@@ -21,7 +21,8 @@ public class Episode {
     public long date;
 
     // empty constructor for Parceler
-    public Episode() { }
+    public Episode() {
+    }
 
     public Episode(String title, String audioUrl, int audio_length, String id, String description, long date) {
         this.title = title;
@@ -32,27 +33,4 @@ public class Episode {
         this.date = date;
     }
 
-    public String getTitle() {
-        return title;
-    }
-
-    public String getAudioUrl() {
-        return audioUrl;
-    }
-
-    public int getAudio_length() {
-        return audio_length;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public long getDate() {
-        return date;
-    }
 }
