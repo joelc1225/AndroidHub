@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.joelcamargojr.androidhub.R;
+import com.joelcamargojr.androidhub.activities.EpisodePlayerActivity;
 import com.joelcamargojr.androidhub.activities.PodcastDetailActivity;
 import com.joelcamargojr.androidhub.model.Episode;
 import com.joelcamargojr.androidhub.model.Podcast;
@@ -48,7 +50,7 @@ public class ListenRecyclerviewAdapter extends RecyclerView.Adapter<ListenRecycl
         Picasso.get().load(R.drawable.fragmented_image)
                 .into(holder.imageView);
 
-        holder.sourceNameTextview.setText(podcast.title);
+        holder.sourceNameTextview.setText(podcast.title + " >");
         holder.titleTextview.setText(currentEpisode.title);
 
         // sets click different listeners on views
@@ -60,6 +62,18 @@ public class ListenRecyclerviewAdapter extends RecyclerView.Adapter<ListenRecycl
                 bundle.putParcelable("podcast", Parcels.wrap(podcast));
                 goToSourcePodcast.putExtra("bundle", bundle);
                 context.startActivity(goToSourcePodcast);
+            }
+        });
+
+        // Sets the click listener to open the episode player activity
+        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToPlayerIntent = new Intent(context, EpisodePlayerActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("episode", Parcels.wrap(currentEpisode));
+                goToPlayerIntent.putExtra("bundle", bundle);
+                context.startActivity(goToPlayerIntent);
             }
         });
     }
@@ -74,12 +88,14 @@ public class ListenRecyclerviewAdapter extends RecyclerView.Adapter<ListenRecycl
         public TextView titleTextview;
         public ImageView imageView;
         public TextView sourceNameTextview;
+        public ConstraintLayout constraintLayout;
 
         public ViewHolder(View itemView) {
             super(itemView);
             titleTextview = itemView.findViewById(R.id.titleTv);
             imageView = itemView.findViewById(R.id.imageView);
             sourceNameTextview = itemView.findViewById(R.id.source_name_textview);
+            constraintLayout = itemView.findViewById(R.id.constraint_layout_article_listitem);
         }
     }
 }
