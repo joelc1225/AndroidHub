@@ -31,7 +31,6 @@ public class ListenFragment extends Fragment {
 
         // Checks if arguments passed in are valid before setup
         if (bundle != null) {
-            Timber.d("BUNDLE NOT NULL!");
             Podcast fragPodcast = Parcels.unwrap(bundle.getParcelable("fragPodcast"));
             RecyclerView recyclerView = view.findViewById(R.id.recy_listen_frag);
             ListenRecyclerviewAdapter adapter = new ListenRecyclerviewAdapter(fragPodcast, getContext());

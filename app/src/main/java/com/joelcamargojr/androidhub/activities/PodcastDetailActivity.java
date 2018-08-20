@@ -24,6 +24,7 @@ public class PodcastDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.podcast_detail);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Gets bundle that should have our Podcast data
         Bundle bundle = getIntent().getBundleExtra("bundle");
