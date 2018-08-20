@@ -1,9 +1,10 @@
 package com.joelcamargojr.androidhub.recyclerview;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,11 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.joelcamargojr.androidhub.R;
+import com.joelcamargojr.androidhub.activities.PodcastDetailActivity;
 import com.joelcamargojr.androidhub.model.Episode;
 import com.joelcamargojr.androidhub.model.Podcast;
 import com.squareup.picasso.Picasso;
 
-import timber.log.Timber;
+import org.parceler.Parcels;
 
 public class ListenRecyclerviewAdapter extends RecyclerView.Adapter<ListenRecyclerviewAdapter.ViewHolder> {
 
@@ -41,23 +43,30 @@ public class ListenRecyclerviewAdapter extends RecyclerView.Adapter<ListenRecycl
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
         currentEpisode = podcast.episodeArrayList.get(position);
-        String title = currentEpisode.title;
-        String imageUrl = podcast.getImage();
 
-        // checks if string url is valid before trying to load into picasso
-        if (!TextUtils.isEmpty(imageUrl)) {
-            Timber.d("Has imageUrl: " + imageUrl);
-            Picasso.get().load(imageUrl)
-                    .into(holder.imageView);
-        }
+        // Using saved drawable instead of imageUrl for highRes
+        Picasso.get().load(R.drawable.fragmented_image)
+                .into(holder.imageView);
 
         holder.sourceNameTextview.setText(podcast.title);
         holder.titleTextview.setText(currentEpisode.title);
+
+        // sets click different listeners on views
+        holder.sourceNameTextview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent goToSourcePodcast = new Intent(context, PodcastDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("podcast", Parcels.wrap(podcast));
+                goToSourcePodcast.putExtra("bundle", bundle);
+                context.startActivity(goToSourcePodcast);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return podcast.getEpisodeArrayList().size();
+        return podcast.episodeArrayList.size();
     }
 
 

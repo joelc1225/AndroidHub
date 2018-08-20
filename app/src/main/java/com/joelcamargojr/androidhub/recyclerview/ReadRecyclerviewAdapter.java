@@ -46,7 +46,7 @@ public class ReadRecyclerviewAdapter extends RecyclerView.Adapter<ReadRecyclervi
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
         // Gets current Article and parses out info from it
         Article currentArticle = articles.get(position);
@@ -70,7 +70,7 @@ public class ReadRecyclerviewAdapter extends RecyclerView.Adapter<ReadRecyclervi
         holder.sourceTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Source Title" + position, Toast.LENGTH_SHORT ).show();
+                Toast.makeText(context, "Source Title" + holder.getAdapterPosition(), Toast.LENGTH_SHORT ).show();
             }
         });
 
