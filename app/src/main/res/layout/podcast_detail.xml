@@ -15,26 +15,29 @@
 
             <ImageView
                 android:id="@+id/podcast_imageview"
-                android:layout_width="295dp"
-                android:layout_height="273dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="16dp"
+                android:layout_width="0dp"
+                android:layout_height="189dp"
+                android:background="@drawable/photo_scrim"
                 android:contentDescription="@string/podcast_image_descrip"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.512"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/podcast_title_textView"
+                app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@color/colorPrimary" />
 
             <TextView
                 android:id="@+id/podcast_title_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="@+id/podcast_imageview"
+                app:layout_constraintStart_toStartOf="@+id/podcast_imageview"
+                app:layout_constraintTop_toTopOf="@id/podcast_imageview"
+                android:paddingTop="8dp"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
                 tools:text="PODCAST TITLE" />
 
             <TextView
@@ -45,6 +48,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginStart="16dp"
                 android:textAlignment="center"
+                android:fontFamily="sans-serif"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.501"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,12 +59,25 @@
                 android:id="@+id/episodes_RV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:scrollbars="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/podcast_description_textview"
+                app:layout_constraintTop_toBottomOf="@+id/episodes_label"
                 tools:listitem="@layout/episode_list_item" />
+
+            <TextView
+                android:id="@+id/episodes_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:text="Episodes"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/podcast_description_textview"
+                tools:text="Episodes" />
 
         </android.support.constraint.ConstraintLayout>
 

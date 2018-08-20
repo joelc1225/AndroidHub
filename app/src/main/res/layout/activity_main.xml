@@ -62,7 +62,8 @@
                 android:theme="@style/Widget.AppCompat.ActionBar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:elevation="4dp"/>
 
         </android.support.constraint.ConstraintLayout>
 
@@ -73,7 +74,8 @@
             android:fitsSystemWindows="true"
             android:layout_gravity="start"
             app:headerLayout="@layout/nav_drawer_header"
-            app:menu="@menu/nav_menu">
+            app:menu="@menu/nav_menu"
+            android:elevation="16dp">
 
         </android.support.design.widget.NavigationView>
 
