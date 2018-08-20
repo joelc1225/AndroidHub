@@ -14,7 +14,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.joelcamargojr.androidhub.data.PodcastAPIEndpoints;
-import com.joelcamargojr.androidhub.data.PodcastRepository;
 import com.joelcamargojr.androidhub.data.RetrofitApi;
 import com.joelcamargojr.androidhub.databinding.ActivityMainBinding;
 import com.joelcamargojr.androidhub.fragment.FragmentPagerAdapter;
@@ -29,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
     DrawerLayout mDrawerLayout;
     private FragmentPagerAdapter mPagerAdapter;
-    PodcastRepository podcastRepository = new PodcastRepository();
     public Podcast fragPodcast;
     String fragmentedPodcastId;
     public PodcastAPIEndpoints podcastAPIInterface;
@@ -98,10 +96,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        fragPodcast = podcastRepository.getFragmentedPodcast(fragmentedPodcastId);
-
-
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

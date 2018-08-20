@@ -11,4 +11,6 @@
     <string name="settings_label">Settings</string>
     <string name="credits_label">Credits</string>
     <string name="fragmentedPodcastId">6b550601c6824112a90abcd413532196</string>
+    <string name="minutes_label">Minutes</string>
+    <string name="podcast_image_descrip">Podcast Image</string>
 </resources>
