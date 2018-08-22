@@ -62,8 +62,6 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="Description"
-                android:autoLink="all"
-                android:linksClickable="true"
                 tools:text="This is a brief description of the podcast and what it is about. I need more info to type to see how this wraps. My name is blah blah blah and this episode is about really cool android stuff. I cant wait for you guys to listen to this episode about really awesome Android stuff" />
 
         </ScrollView>

@@ -3,12 +3,12 @@ package com.joelcamargojr.androidhub.activities;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.joelcamargojr.androidhub.R;
-import com.joelcamargojr.androidhub.Utils.StringUtils;
 import com.joelcamargojr.androidhub.databinding.PlayerPodcastBinding;
 import com.joelcamargojr.androidhub.model.Episode;
 import com.squareup.picasso.Picasso;
@@ -41,7 +41,7 @@ public class EpisodePlayerActivity extends AppCompatActivity {
                     .load(R.drawable.fragmented_image)
                     .into(binding.imageViewPodcast);
 
-            binding.playerPodcastDescripTv.setText(StringUtils.stripHtml(episode.description));
+            binding.playerPodcastDescripTv.setText(Html.fromHtml(episode.description));
             binding.playerPodcastDescripTv.setMovementMethod(LinkMovementMethod.getInstance());
             binding.playerPodcastTitleTv.setText(episode.title);
 

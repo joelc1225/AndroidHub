@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +22,6 @@ import com.joelcamargojr.androidhub.model.Episode;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
-
-import static com.joelcamargojr.androidhub.Utils.StringUtils.stripHtml;
 
 public class EpisodeRecyclerviewAdapter extends RecyclerView.Adapter<EpisodeRecyclerviewAdapter.ViewHolder> {
 
@@ -56,7 +55,7 @@ public class EpisodeRecyclerviewAdapter extends RecyclerView.Adapter<EpisodeRecy
 
         // Sets data to all the views
         holder.titleTV.setText(currentEpisode.title);
-        holder.descriptionTV.setText(stripHtml(currentEpisode.description));
+        holder.descriptionTV.setText(Html.fromHtml(currentEpisode.description));
         holder.dateTV.setText(dateString);
         holder.lengthTV.setText(audioLengthString);
         holder.progressBar.setProgress(20);
