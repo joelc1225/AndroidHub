@@ -12,6 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!--MainActivity-->
         <activity android:name=".MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
@@ -20,6 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--PodcastDetailActivity-->
         <activity
             android:name=".activities.PodcastDetailActivity"
             android:launchMode="singleTop"
@@ -29,10 +33,26 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity android:name=".activities.EpisodePlayerActivity"
-            android:theme="@style/ActionBar">
 
+        <!--EpisodePlayerActivity-->
+        <activity android:name=".activities.EpisodePlayerActivity"
+            android:theme="@style/ActionBar"
+            android:launchMode="singleTop">
         </activity>
+
+        <!-- Receivers-->
+        <receiver android:name=".activities.EpisodePlayerActivity$MediaReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON"/>
+            </intent-filter>
+        </receiver>
+
+        <!--Services-->
+        <service android:name=".PodcastAudioService">
+            <intent-filter>
+                <action android:name="android.media.browse.MediaBrowserService"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

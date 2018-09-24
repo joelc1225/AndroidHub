@@ -13,4 +13,10 @@
     <string name="fragmentedPodcastId">6b550601c6824112a90abcd413532196</string>
     <string name="minutes_label">Minutes</string>
     <string name="podcast_image_descrip">Podcast Image</string>
+    <string name="channel_id_player">player</string>
+    <string name="channel_id_default">default</string>
+    <string name="pause_label">Pause</string>
+    <string name="play_label">Play</string>
+    <string name="label_rewind">Rewind</string>
+    <string name="label_fragmented_podcast">Fragmented Podcast</string>
 </resources>
