@@ -21,18 +21,14 @@ public class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAd
     private Context mContext;
 
     // Gets fake data and creates bundle before sending to Frags
-    private ArrayList<Article> articleList = FakeDataSource.getFakeArticleList();
     private ArrayList<Article> articleList2 = FakeDataSource.getFakeArticleList2();
-//    private ArrayList<Article> articleList3 = FakeDataSource.getFakeArticleList3();
 
     // PODCAST TEST
     private Podcast fragPodcast;
 
-    private Bundle bundle = new Bundle();
     private Bundle bundle2 = new Bundle();
     private Bundle bundle3 = new Bundle();
 
-    private ReadFragment readFragment = new ReadFragment();
     private WatchFragment watchFragment = new WatchFragment();
     private ListenFragment listenFragment = new ListenFragment();
 
@@ -46,18 +42,14 @@ public class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAd
     public Fragment getItem(int position) {
 
         // puts fake test data into bundle
-        bundle.putParcelable("articleList", Parcels.wrap(articleList));
         bundle2.putParcelable("articleList2", Parcels.wrap(articleList2));
         bundle3.putParcelable("fragPodcast", Parcels.wrap(fragPodcast));
 
         switch (position) {
             case 0:
-                readFragment.setArguments(bundle);
-                return readFragment;
-            case 1:
                 watchFragment.setArguments(bundle2);
                 return watchFragment;
-            case 2:
+            case 1:
                 listenFragment.setArguments(bundle3);
                 return listenFragment;
         }
@@ -66,7 +58,7 @@ public class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAd
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @Nullable
@@ -74,10 +66,8 @@ public class FragmentPagerAdapter extends android.support.v4.app.FragmentPagerAd
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return mContext.getResources().getString(R.string.read_label);
-            case 1:
                 return mContext.getResources().getString(R.string.watch_label);
-            case 2:
+            case 1:
                 return mContext.getResources().getString(R.string.listen_label);
         }
         return null;
