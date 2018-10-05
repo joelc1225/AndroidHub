@@ -2,12 +2,8 @@ package com.joelcamargojr.androidhub;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -44,26 +40,9 @@ public class MainActivity extends AppCompatActivity {
         // set up custom toolbar
         Toolbar toolbar = binding.toolbar;
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.nav_menu_icon);
 
         // sets podcast ids needed for api calls
         fragmentedPodcastId = getString(R.string.fragmentedPodcastId);
-
-        // instantiates drawer to implement on optionsItemSelected
-        mDrawerLayout = binding.drawerLayout;
-
-        // handles the logic for the clicks within the drawer
-        binding.navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                binding.drawerLayout.closeDrawers();
-
-                // TODO switch statement for item selections and logic
-                return true;
-            }
-        });
 
         podcastAPIInterface =
                 RetrofitApi.getPodcastClient().create(PodcastAPIEndpoints.class);
@@ -106,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                mDrawerLayout.openDrawer(GravityCompat.START);
                 return true;
         }
         return super.onOptionsItemSelected(item);

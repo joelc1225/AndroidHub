@@ -40,10 +40,6 @@ public class ListenFragment extends Fragment {
         } else {
             Timber.d("BUNDLE IS NULL!!!!!");
         }
-
-
         return view;
-
-
     }
 }

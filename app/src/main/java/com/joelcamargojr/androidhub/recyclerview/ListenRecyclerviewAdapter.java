@@ -21,16 +21,19 @@ import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
+import java.util.ArrayList;
+
 public class ListenRecyclerviewAdapter extends RecyclerView.Adapter<ListenRecyclerviewAdapter.ViewHolder> {
 
     private Podcast podcast;
     private Context context;
-    private Episode currentEpisode;
+    private ArrayList<Episode> episodesArrayList;
 
     // Constructor
     public ListenRecyclerviewAdapter(Podcast podcast, Context context) {
         this.podcast = podcast;
         this.context = context;
+        episodesArrayList = podcast.episodeArrayList;
     }
 
     @NonNull
@@ -44,7 +47,7 @@ public class ListenRecyclerviewAdapter extends RecyclerView.Adapter<ListenRecycl
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        currentEpisode = podcast.episodeArrayList.get(position);
+        final Episode currentEpisode = episodesArrayList.get(position);
 
         // Using saved drawable instead of imageUrl for highRes
         Picasso.get().load(R.drawable.fragmented_image)

@@ -30,7 +30,6 @@ public class PodcastDetailActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getBundleExtra("bundle");
 
         if (bundle != null) {
-            Timber.d("BUNDLE NOT NULL!");
             Podcast podcast = Parcels.unwrap(bundle.getParcelable("podcast"));
             Timber.d(podcast.image);
             Picasso.get()

@@ -5,7 +5,6 @@
     <string name="find_a_meetup_label">Find a Meetup</string>
     <string name="surprise_me_label">Surprise Me</string>
     <string name="profile_picture_image_description">Profile Picture Image</string>
-    <string name="read_label">Read</string>
     <string name="watch_label">Watch</string>
     <string name="listen_label">Listen</string>
     <string name="settings_label">Settings</string>
@@ -13,8 +12,9 @@
     <string name="fragmentedPodcastId">6b550601c6824112a90abcd413532196</string>
     <string name="minutes_label">Minutes</string>
     <string name="podcast_image_descrip">Podcast Image</string>
-    <string name="channel_id_player">player</string>
-    <string name="channel_id_default">default</string>
+    <string name="channel_name_player">Player Channel</string>
+    <string name="channel_id_player">player_channel_id</string>
+    <string name="channel_id_default">default_channel_id</string>
     <string name="pause_label">Pause</string>
     <string name="play_label">Play</string>
     <string name="label_rewind">Rewind</string>

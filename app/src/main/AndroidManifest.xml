@@ -41,11 +41,6 @@
         </activity>
 
         <!-- Receivers-->
-        <receiver android:name=".activities.EpisodePlayerActivity$MediaReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_BUTTON"/>
-            </intent-filter>
-        </receiver>
 
         <!--Services-->
         <service android:name=".PodcastAudioService">
