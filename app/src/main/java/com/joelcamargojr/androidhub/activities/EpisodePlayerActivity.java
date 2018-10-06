@@ -1,6 +1,7 @@
 package com.joelcamargojr.androidhub.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -36,12 +37,14 @@ public class EpisodePlayerActivity extends AppCompatActivity {
     MediaMetadataCompat mediaMetadataCompat;
     SimpleExoPlayer player;
     public static String mLastEpisodePlayed;
+    public static String mPrefsLastEpisodePlayed;
     public static boolean mIsSameEpisode = false;
     public static boolean mServiceWasStarted;
     public static long mPlayerPosition;
     public static boolean mPlayWhenReady;
     public static int mPlayerWindow;
     public boolean mStartedFromNotification;
+    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,57 +54,79 @@ public class EpisodePlayerActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.player_podcast);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // Gets Episode data from intent and extracts out necessary data
+        getBundleAndExtractEpisodeData();
+
+        // Helper method that helps determine which way we should setup the activity
+        precheckForActivitySetup(savedInstanceState);
+
+        // Checks if activity is starting from a notification PendingIntent or fresh startup
+        if (!mStartedFromNotification) {
+
+            // Checks if the episode data is the same before setup
+            if (!mIsSameEpisode) {
+                // No state to restore. Fresh setup.
+                Timber.d("NOT same episode. Fresh setup");
+                initialPlayerSetup();
+                setupActivity(currentEpisode);
+            } else {
+                Timber.d("EPISODES MATCH. Restore player state");
+                initialPlayerSetup();
+                setupActivity(currentEpisode);
+                player.setPlayWhenReady(mPlayWhenReady);
+                player.seekTo(mPlayerWindow, mPlayerPosition);
+            }
+        } else {
+            // Started from notification click. Player is already setup. Just need to inflate views
+            setupActivity(currentEpisode);
+        }
+
+        mediaMetadataCompat = MetaDataUtils.setMetaDataForMediaSession(this, currentEpisode);
+    }
+
+    private void precheckForActivitySetup(Bundle savedInstanceState) {
+
+        mSharedPreferences = this.getPreferences(MODE_PRIVATE);
+
+        mPrefsLastEpisodePlayed =
+                mSharedPreferences.getString(getString(R.string.last_played_episode_key), null);
+        Timber.d("SHARED PREFS LAST EPISODE: %s", mPrefsLastEpisodePlayed);
+
+        // If there is state saved. Initialize everything needed to restore state
+        if (savedInstanceState != null) {
+            Timber.d("SavedInstanceState NOT null. Restore data.");
+            // Gets last played episode from onSavedInstanceState for config change setup
+            mLastEpisodePlayed = savedInstanceState.getString("lastEpisodePlayed", null);
+
+            // Checks is lastEpisodePlayed and current episode data are the same
+            if (mLastEpisodePlayed != null && mLastEpisodePlayed.equals(currentEpisode.title)) {
+                mIsSameEpisode = true;
+            }
+
+            mPlayWhenReady = savedInstanceState.getBoolean("playWhenReady");
+            mPlayerWindow = savedInstanceState.getInt("playerWindow");
+            mPlayerPosition = savedInstanceState.getLong("playerPosition");
+            mServiceWasStarted = savedInstanceState.getBoolean("wasServiceStarted");
+            logState();
+        } else {
+            if (mPrefsLastEpisodePlayed.equals(currentEpisode.title)) {
+                mIsSameEpisode = true;
+            }
+        }
+    }
+
+    private void getBundleAndExtractEpisodeData() {
         // Gets bundle that should have our Podcast data
         Bundle bundle = getIntent().getBundleExtra("bundle");
 
         // Instantiates Episode object from Bundle
         currentEpisode = Parcels.unwrap(bundle.getParcelable("episode"));
 
-        // Sets mediaUrl from Episode object to setup the Player
+        // Sets mediaUrl from current Episode object to setup the Player
         ExoPlayerUtils.setMediaString(currentEpisode.audioUrl);
 
-        // Booleans that help us figure out whether we create new data for the player or keep the same data
+        // Boolean that help us figure out whether we create new data for the player or keep the same data
         mStartedFromNotification = bundle.getBoolean("startedFromNotification", false);
-
-        // Checks if activity is starting from a notification PendingIntent or fresh startup
-        if (!mStartedFromNotification) {
-            Timber.d("NOT started from a notification");
-
-            if (savedInstanceState == null) {
-                // No state to restore. Fresh setup.
-                Timber.d("onsaved NULL. Fresh setup");
-                initialPlayerSetup();
-                setupActivity(currentEpisode);
-
-            } else {
-
-                // Gets last played episode
-                mLastEpisodePlayed = savedInstanceState.getString("lastEpisodePlayed", null);
-                if (mLastEpisodePlayed != null && mLastEpisodePlayed.equals(currentEpisode.title)) {
-                    mIsSameEpisode = true;
-                }
-
-                if (mIsSameEpisode) {
-                    Timber.d("EPISODES MATCH. Restore state");
-                    // Initialize variables to restore previous state
-                    mPlayWhenReady = savedInstanceState.getBoolean("playWhenReady");
-                    mPlayerWindow = savedInstanceState.getInt("playerWindow");
-                    mPlayerPosition = savedInstanceState.getLong("playerPosition");
-                    mServiceWasStarted = savedInstanceState.getBoolean("wasServiceStarted");
-                    logState();
-
-                    initialPlayerSetup();
-                    setupActivity(currentEpisode);
-                    player.setPlayWhenReady(mPlayWhenReady);
-                    player.seekTo(mPlayerWindow, mPlayerPosition);
-                }
-            }
-        } else {
-            currentEpisode = Parcels.unwrap(bundle.getParcelable("episode"));
-            setupActivity(currentEpisode);
-        }
-
-        mediaMetadataCompat = MetaDataUtils.setMetaDataForMediaSession(this, currentEpisode);
     }
 
     private void initialPlayerSetup() {
@@ -121,15 +146,14 @@ public class EpisodePlayerActivity extends AppCompatActivity {
             binding.playerPodcastDescripTv.setMovementMethod(LinkMovementMethod.getInstance());
             binding.playerPodcastTitleTv.setText(currentEpisode.title);
 
-            if (!mStartedFromNotification) {
-                Timber.d("NOT started from notification. Setting new player");
-                binding.playerControlView.setPlayer(player);
-            } else {
-                Timber.d("Started from notification. Getting Service player");
+            if (mServiceWasStarted) {
+                Timber.d("Service started. get existing player");
                 player = PodcastAudioService.getExistingPlayer();
                 binding.playerControlView.setPlayer(player);
+            } else {
+                Timber.d("Service not started.");
+                binding.playerControlView.setPlayer(player);
             }
-
         }
     }
 
@@ -158,11 +182,6 @@ public class EpisodePlayerActivity extends AppCompatActivity {
         super.onStart();
         Timber.d("ON START");
         setVolumeControlStream(AudioManager.STREAM_MUSIC);
-
-//        if (!mServiceWasStarted) {
-//            startService(new Intent(this, PodcastAudioService.class));
-//            mServiceWasStarted = true;
-//        }
     }
 
     @Override
@@ -175,6 +194,9 @@ public class EpisodePlayerActivity extends AppCompatActivity {
         super.onPause();
         Timber.d("ONPAUSE");
         savePlayerState();
+        SharedPreferences.Editor mEditor = mSharedPreferences.edit();
+        mEditor.putString(getString(R.string.last_played_episode_key), mLastEpisodePlayed);
+        mEditor.apply();
         logState();
     }
 

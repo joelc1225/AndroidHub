@@ -2,9 +2,9 @@ package com.joelcamargojr.androidhub;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,8 +12,8 @@ import android.view.MenuItem;
 import com.joelcamargojr.androidhub.data.PodcastAPIEndpoints;
 import com.joelcamargojr.androidhub.data.RetrofitApi;
 import com.joelcamargojr.androidhub.databinding.ActivityMainBinding;
-import com.joelcamargojr.androidhub.fragment.FragmentPagerAdapter;
 import com.joelcamargojr.androidhub.model.Podcast;
+import com.joelcamargojr.androidhub.recyclerview.MainRecyclerviewAdapter;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -22,12 +22,9 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
 
-    DrawerLayout mDrawerLayout;
-    private FragmentPagerAdapter mPagerAdapter;
     public Podcast fragPodcast;
     String fragmentedPodcastId;
     public PodcastAPIEndpoints podcastAPIInterface;
-    FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
                 int statusCode = response.code();
                 Timber.d("STATUS CODE IS: " + statusCode);
                 fragPodcast = response.body();
-                // plug up pager adapter and viewpager
-                mPagerAdapter =
-                        new FragmentPagerAdapter(fragmentManager, getApplicationContext(), fragPodcast);
-                binding.viewPager.setAdapter(mPagerAdapter);
-                binding.tabLayout.setupWithViewPager(binding.viewPager);
+                RecyclerView recyclerView = binding.recyListenFrag;
+                MainRecyclerviewAdapter adapter = new MainRecyclerviewAdapter(fragPodcast, getApplicationContext());
+                recyclerView.setAdapter(adapter);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+                recyclerView.setLayoutManager(layoutManager);
             }
 
             @Override
@@ -71,7 +68,6 @@ public class MainActivity extends AppCompatActivity {
                 Timber.d("ERROR: " + t.getLocalizedMessage());
             }
         });
-
     }
 
 

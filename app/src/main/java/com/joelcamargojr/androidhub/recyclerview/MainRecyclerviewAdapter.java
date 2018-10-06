@@ -23,14 +23,14 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-public class ListenRecyclerviewAdapter extends RecyclerView.Adapter<ListenRecyclerviewAdapter.ViewHolder> {
+public class MainRecyclerviewAdapter extends RecyclerView.Adapter<MainRecyclerviewAdapter.ViewHolder> {
 
     private Podcast podcast;
     private Context context;
     private ArrayList<Episode> episodesArrayList;
 
     // Constructor
-    public ListenRecyclerviewAdapter(Podcast podcast, Context context) {
+    public MainRecyclerviewAdapter(Podcast podcast, Context context) {
         this.podcast = podcast;
         this.context = context;
         episodesArrayList = podcast.episodeArrayList;
@@ -40,7 +40,7 @@ public class ListenRecyclerviewAdapter extends RecyclerView.Adapter<ListenRecycl
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.article_list_item, parent, false);
+                .inflate(R.layout.main_episode_list_item, parent, false);
         return new ViewHolder(itemView);
     }
 

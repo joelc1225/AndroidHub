@@ -19,4 +19,5 @@
     <string name="play_label">Play</string>
     <string name="label_rewind">Rewind</string>
     <string name="label_fragmented_podcast">Fragmented Podcast</string>
+    <string name="last_played_episode_key">last_played_episode_title_key</string>
 </resources>
