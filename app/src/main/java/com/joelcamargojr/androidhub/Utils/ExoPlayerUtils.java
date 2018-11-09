@@ -22,12 +22,12 @@ import timber.log.Timber;
 public class ExoPlayerUtils {
 
     private static SimpleExoPlayer player;
-    private static String mediaUrlString;
 
+    // if the player is null, creates a new player. Otherwise returns existing
     public static SimpleExoPlayer createExoPlayer(Context context) {
 
         if (player == null) {
-            Timber.d("Player is null. Creating new player");
+            Timber.d("PLAYER IS NULL. CREATING NEW ONE");
             BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
             TrackSelection.Factory videoTrackSelectionFactory =
                     new AdaptiveTrackSelection.Factory(bandwidthMeter);
@@ -38,16 +38,14 @@ public class ExoPlayerUtils {
 
             return player;
         } else {
-            Timber.d("Player is NOT null. returning same player");
+            Timber.d("PLAYER ALREadY EXISTS. RETURNING SAME PLAYER");
             return player;
         }
-
     }
 
-    public static void preparePlayer(Context context, SimpleExoPlayer player) {
+    public static void preparePlayer(Context context, SimpleExoPlayer player, String mediaUrlString) {
 
-        Timber.d("preparing player");
-
+        Timber.d("AUDIO URL IS: %s", mediaUrlString);
         // converts audio URL to URI
         Uri mediaUri = Uri.parse(mediaUrlString);
 
@@ -63,10 +61,7 @@ public class ExoPlayerUtils {
         player.prepare(audioSource);
     }
 
-    public static void setMediaString(String mediaUrl) {
-        mediaUrlString = mediaUrl;
-    }
-
+    // method to make player null from service
     public static void setPlayerToNull() {
         player = null;
     }
