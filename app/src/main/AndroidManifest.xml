@@ -13,8 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--MainActivity-->
-        <activity android:name=".MainActivity"
+        <!-- MainActivity -->
+        <activity
+            android:name=".MainActivity"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,7 +24,7 @@
             </intent-filter>
         </activity>
 
-        <!--PodcastDetailActivity-->
+        <!-- PodcastDetailActivity -->
         <activity
             android:name=".activities.PodcastDetailActivity"
             android:launchMode="singleTop"
@@ -34,20 +35,34 @@
                 android:value=".MainActivity" />
         </activity>
 
-        <!--EpisodePlayerActivity-->
-        <activity android:name=".activities.EpisodePlayerActivity"
+        <!-- EpisodePlayerActivity -->
+        <activity
+            android:name=".activities.EpisodePlayerActivity"
+            android:parentActivityName=".MainActivity"
+            android:launchMode="singleTop"
             android:theme="@style/ActionBar"
-            android:launchMode="singleTop">
+            >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
 
-        <!-- Receivers-->
-
-        <!--Services-->
-        <service android:name=".PodcastAudioService">
+        <!-- Receivers -->
+        <receiver android:name=".widget.WidgetProvider">
             <intent-filter>
-                <action android:name="android.media.browse.MediaBrowserService"/>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
-        </service>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+
+        <!-- Services -->
+        <service
+            android:name=".PodcastAudioService"
+            android:enabled="true"/>
+
     </application>
 
 </manifest>

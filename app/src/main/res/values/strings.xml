@@ -20,4 +20,26 @@
     <string name="label_rewind">Rewind</string>
     <string name="label_fragmented_podcast">Fragmented Podcast</string>
     <string name="last_played_episode_key">last_played_episode_title_key</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="widget_play_button">Widget Play Button</string>
+    <string name="widget_rewind_button">Widget Rewind Button</string>
+    <string name="widget_fastforward_button">Widget Fastforward Button</string>
+    <string name="last_played_audioUrl_key">last_played_audioUrl_key</string>
+    <string name="last_played_position_key">last_played_position_key</string>
+    <string name="service_was_started_key">service_was_started_key</string>
+    <string name="last_played_episode_description_key">last_played_episode_description_key</string>
+    <string name="widget_button_label">Continue Listening</string>
+    <string name="last_played_audio_length_key">last_played_audio_length_key</string>
+    <string name="last_played_id_key">last_played_id_key</string>
+    <string name="last_played_date_key">last_played_date_key</string>
+    <string name="last_played_listenNotesUrl_key">last_played_listenNotesUrl_key</string>
+    <string name="episode_key">episode</string>
+    <string name="bundle_key">bundle</string>
+    <string name="lastEpisodePlayed_key">lastEpisodePlayed</string>
+    <string name="widget_empty_string">No recently played episodes yet</string>
+    <string name="widgetToastMessage">No episode data yet! Play an episode first</string>
+    <string name="widgetToastAction">widgetClickWithToast</string>
+    <string name="started_from_widget_key">started_from_widget_key</string>
+    <string name="retry_connection">Retry Connection</string>
 </resources>
