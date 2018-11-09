@@ -3,11 +3,14 @@ package com.joelcamargojr.androidhub;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TaskStackBuilder;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
@@ -50,11 +53,25 @@ public class PodcastAudioService extends Service {
     final int NOTIFICATION_ID = 1100;
     PlayerNotificationManager playerNotificationManager;
     MediaMetadataCompat metadataCompat;
+    SharedPreferences mSharedPreferences;
+    SharedPreferences.Editor mEditor;
+    String mAudioUrlString;
 
     @Override
     public void onCreate() {
         super.onCreate();
         final Context context = this;
+
+        Timber.d("SERVICE ONCREATE RUNNING");
+
+        mSharedPreferences = context.getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
+
+        if (mSharedPreferences.contains(getString(R.string.last_played_audioUrl_key))) {
+
+            mAudioUrlString =
+                    mSharedPreferences.getString(getString(R.string.last_played_audioUrl_key), null);
+        }
+
 
         // Gets system audio service and creates audio focus request for future reference
         mAudioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
@@ -66,17 +83,16 @@ public class PodcastAudioService extends Service {
         // inits mediaSession and sets initial state
         initMediaSession();
 
-        // Creates the exoplayer
+        // Creates the service exoplayer
         initPlayer();
 
         // Creates Notification manager
         initPlayerNotificationManager(context);
 
-
     }
 
+    // Method that creates the player's notification and manages changes
     private void initPlayerNotificationManager(final Context context) {
-        Timber.d("Creating PlayerManger");
 
         playerNotificationManager = PlayerNotificationManager.createWithNotificationChannel(this,
                 context.getString(R.string.channel_id_player),
@@ -85,36 +101,54 @@ public class PodcastAudioService extends Service {
 
                     @Override
                     public String getCurrentContentTitle(Player player) {
-                        Timber.d("INSIDE GET CURRENT TITLE");
                         metadataCompat = MetaDataUtils.getMediaMetadata();
-                        return metadataCompat.getString(MediaMetadataCompat.METADATA_KEY_ARTIST);
+                        if (metadataCompat == null) {
+                            return getString(R.string.label_fragmented_podcast);
+                        } else {
+                            return metadataCompat.getString(MediaMetadataCompat.METADATA_KEY_ARTIST);
+                        }
                     }
 
                     @Nullable
                     @Override
                     public PendingIntent createCurrentContentIntent(Player player) {
-                        Timber.d("INSIDE GET CONTENT INTENT");
-                        Intent intent = new Intent(context, EpisodePlayerActivity.class);
+
+                        Intent mainActivityIntent = new Intent(context, MainActivity.class);
+                        Intent episodeActivityIntent = new Intent(context, EpisodePlayerActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putParcelable("episode", Parcels.wrap(EpisodePlayerActivity.currentEpisode));
                         bundle.putBoolean("startedFromNotification", true);
-                        intent.putExtra("bundle", bundle);
-                        return PendingIntent.getActivity(context, 0, intent,
-                                PendingIntent.FLAG_UPDATE_CURRENT);
+                        episodeActivityIntent.putExtra("bundle", bundle);
+
+                        PendingIntent pendingIntent = TaskStackBuilder.create(context)
+                                .addNextIntent(mainActivityIntent)
+                                .addNextIntentWithParentStack(episodeActivityIntent)
+                                .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+//                        return PendingIntent.getActivity(context, 0, episodeActivityIntent,
+//                                PendingIntent.FLAG_UPDATE_CURRENT);
+
+                        return pendingIntent;
                     }
 
                     @Nullable
                     @Override
                     public String getCurrentContentText(Player player) {
-                        Timber.d("INSIDE GET CURRENT CONTENT TEXT");
-                        return metadataCompat.getString(MediaMetadataCompat.METADATA_KEY_TITLE);
+                        if (metadataCompat == null) {
+                            return mSharedPreferences.getString(getString(R.string.last_played_episode_key), null);
+                        } else {
+                            return metadataCompat.getString(MediaMetadataCompat.METADATA_KEY_TITLE);
+                        }
                     }
 
                     @Nullable
                     @Override
                     public Bitmap getCurrentLargeIcon(Player player, PlayerNotificationManager.BitmapCallback callback) {
-                        Timber.d("INSIDE GET CURRENT LARGE ICON");
-                        return metadataCompat.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART);
+                        if (metadataCompat == null) {
+                            return BitmapFactory.decodeResource(context.getResources(), R.drawable.fragmented_image);
+                        } else {
+                            return metadataCompat.getBitmap(MediaMetadataCompat.METADATA_KEY_ALBUM_ART);
+                        }
                     }
                 });
 
@@ -126,6 +160,7 @@ public class PodcastAudioService extends Service {
 
             @Override
             public void onNotificationCancelled(int notificationId) {
+                Timber.d("ON NOTIFICATION CANCELED");
                 player = null;
                 stopSelf();
             }
@@ -145,12 +180,12 @@ public class PodcastAudioService extends Service {
     }
 
     private void initPlayer() {
-        player = ExoPlayerUtils.createExoPlayer(this);
+        // gets prepared player from EpisodePlayerActivity
+        player = EpisodePlayerActivity.getExistingPlayer();
         player.addListener(new MyExoPlayerEventListener());
-        ExoPlayerUtils.preparePlayer(this, player);
-        player.setPlayWhenReady(true);
     }
 
+    // Helper method to request audio focus before playing audio
     private void initFocusRequest() {
         AudioAttributes mPlaybackAttributes = new AudioAttributes.Builder()
                 .setUsage(AudioAttributes.USAGE_MEDIA)
@@ -167,6 +202,7 @@ public class PodcastAudioService extends Service {
         }
     }
 
+    // Helper method that creates the mediaSession
     private void initMediaSession() {
         // Creates media session for podcast player
         mediaSessionCompat = new MediaSessionCompat(this, TAG);
@@ -306,13 +342,13 @@ public class PodcastAudioService extends Service {
                 // Request focus before playing
                 mAudioFocusGranted = mMyFocusListener.requestAudioFocus();
                 if (mAudioFocusGranted) {
-                    Timber.d("AUDIO FOCUS GRANTED INSIDE MyExoPlayerEvent listener");
+                    // Playing
                     stateBuilder.setState(PlaybackStateCompat.STATE_PLAYING,
                             player.getCurrentPosition(),
                             1f);
                 }
             } else if (playbackState == Player.STATE_READY) {
-                Timber.d("WE ARE PAUSED");
+                // Paused
                 mMyFocusListener.abandonAudioFocus();
                 stateBuilder.setState(PlaybackStateCompat.STATE_PAUSED,
                         player.getCurrentPosition(),
@@ -358,12 +394,23 @@ public class PodcastAudioService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Timber.d("SERVICE ONDESTROY");
+        Timber.d("SERVICE ON DESTROY CALLED");
+        // updates the sharedPrefs to show that the service was destroyed
+        mEditor = mSharedPreferences.edit();
+        mEditor.putBoolean(getString(R.string.service_was_started_key), false);
+        mEditor.apply();
         playerNotificationManager.setPlayer(null);
         releasePlayer();
         releaseMediaSession();
         stopSelf();
 
+    }
+
+    private void savePlayerPosition() {
+        Timber.d("SERVICE SAVE PLAYER POSITION CALLED");
+        mEditor = mSharedPreferences.edit();
+        mEditor.putLong(this.getString(R.string.last_played_position_key), player.getCurrentPosition());
+        mEditor.apply();
     }
 
     @Nullable
@@ -374,33 +421,57 @@ public class PodcastAudioService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Timber.d("ONSTART COMMAND RUNNING");
+
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
+
+        // If the intent that started the activity has a player position other than zero and contains the boolean to confirm,
+        // we are starting from a widget click and are continuing playback from the most recent playback event
+        long playerPosition = intent.getLongExtra(this.getString(R.string.last_played_position_key), 0);
+        Timber.d("PLAYER POSITION: %s", playerPosition);
+        boolean startedFromWidget = intent.getBooleanExtra(this.getString(R.string.started_from_widget_key), false);
+        Timber.d("StartedFromWidget: %s", startedFromWidget);
+        boolean serviceStarted = sharedPreferences.getBoolean(getString(R.string.service_was_started_key), false);
+        Timber.d("serviceStarted: %s", serviceStarted);
+
+        if (playerPosition != 0 && startedFromWidget && !serviceStarted){
+            player.seekTo(playerPosition);
+        }
+
         return START_STICKY;
     }
 
     private void releaseMediaSession() {
-        Timber.d("INSIDE SERVICE RELEASE MEDIASESSION");
         mediaSessionCompat.setActive(false);
         mediaSessionCompat.release();
     }
 
     @Override
     public void onTaskRemoved(Intent rootIntent) {
-        super.onTaskRemoved(rootIntent);
-        playerNotificationManager.setPlayer(null);
+        Timber.d("SERVICE ON TASK REMOVED CALLED");
+        // updates the sharedPrefs to show that the service was destroyed and not actively running
+        mEditor = mSharedPreferences.edit();
+        mEditor.putBoolean(getString(R.string.service_was_started_key), false);
+        mEditor.apply();
         releasePlayer();
         releaseMediaSession();
+        playerNotificationManager.setPlayer(null);
         stopSelf();
+        super.onTaskRemoved(rootIntent);
     }
 
     // Releases exoPlayer resources
     private void releasePlayer() {
-        Timber.d("INSIDE SERVICE RELEASE PLAYER");
+        Timber.d("SERVICE RELEASE PLAYER CALLED");
         if (player != null) {
-            Timber.d("PLAYER NOT NULL. TEARING DOWN");
+            Timber.d("SERVICE PLAYER NOT NULL. RELEASING NOW");
+            savePlayerPosition();
             player.stop();
             player.release();
             ExoPlayerUtils.setPlayerToNull();
             player = null;
+        } else {
+            Timber.d(" SERVICE PLAYER IS ALREADY NULL");
         }
 
     }
@@ -458,6 +529,8 @@ public class PodcastAudioService extends Service {
         }
     }
 
+    // static method that gets existing player from the service into our player activity
+    // and avoids re-creating a player
     public static SimpleExoPlayer getExistingPlayer() {
         return player;
     }
