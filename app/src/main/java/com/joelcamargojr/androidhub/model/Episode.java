@@ -1,9 +1,14 @@
 package com.joelcamargojr.androidhub.model;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
+@Entity(tableName = "episodes")
 @Parcel
 public class Episode {
 
@@ -21,12 +26,18 @@ public class Episode {
     public long date;
     @SerializedName("listennotes_url")
     public String listennotes_url;
+    public long last_position;
+    @PrimaryKey(autoGenerate = true)
+    public int database_id;
 
     // empty constructor for Parceler
+    @Ignore
     public Episode() {
     }
 
-    public Episode(String title, String audioUrl, int audio_length, String id, String description, long date, String listennotes_url) {
+    @Ignore
+    public Episode(String title, String audioUrl, int audio_length, String id, String description,
+                   long date, String listennotes_url) {
         this.title = title;
         this.audioUrl = audioUrl;
         this.audio_length = audio_length;
@@ -36,4 +47,17 @@ public class Episode {
         this.listennotes_url = listennotes_url;
     }
 
+    // Constructor for Room
+    public Episode(String title, String audioUrl, int audio_length, String id, String description,
+                   long date, String listennotes_url, long last_position, int database_id) {
+        this.title = title;
+        this.audioUrl = audioUrl;
+        this.audio_length = audio_length;
+        this.id = id;
+        this.description = description;
+        this.date = date;
+        this.listennotes_url = listennotes_url;
+        this.last_position = last_position;
+        this.database_id = database_id;
+    }
 }
