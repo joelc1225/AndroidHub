@@ -115,6 +115,12 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 return true;
+            case R.id.action_find_a_coding_spot:
+                Toast.makeText(this, "CODING SPOT CLICKED", Toast.LENGTH_SHORT).show();
+                // TODO implement this
+               // launchLocationService();
+            case R.id.action_credits:
+                Toast.makeText(this, "CREDITS CLICKED", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
