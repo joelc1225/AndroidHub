@@ -26,17 +26,6 @@
             </intent-filter>
         </activity>
 
-        <!-- PodcastDetailActivity -->
-        <activity
-            android:name=".activities.PodcastDetailActivity"
-            android:launchMode="singleTop"
-            android:parentActivityName=".MainActivity"
-            android:theme="@style/ActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-
         <!-- EpisodePlayerActivity -->
         <activity
             android:name=".activities.EpisodePlayerActivity"

@@ -119,8 +119,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "CODING SPOT CLICKED", Toast.LENGTH_SHORT).show();
                 // TODO implement this
                // launchLocationService();
+                break;
             case R.id.action_credits:
                 Toast.makeText(this, "CREDITS CLICKED", Toast.LENGTH_SHORT).show();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

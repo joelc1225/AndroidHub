@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.joelcamargojr.androidhub.R;
 import com.joelcamargojr.androidhub.activities.EpisodePlayerActivity;
-import com.joelcamargojr.androidhub.activities.PodcastDetailActivity;
 import com.joelcamargojr.androidhub.model.Episode;
 import com.joelcamargojr.androidhub.model.Podcast;
 import com.squareup.picasso.Picasso;
@@ -53,20 +52,8 @@ public class MainRecyclerviewAdapter extends RecyclerView.Adapter<MainRecyclervi
         Picasso.get().load(R.drawable.fragmented_image)
                 .into(holder.imageView);
 
-        holder.sourceNameTextview.setText(podcast.title + " >");
+        holder.sourceNameTextview.setText(podcast.title);
         holder.titleTextview.setText(currentEpisode.title);
-
-        // sets click different listeners on views
-        holder.sourceNameTextview.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goToSourcePodcast = new Intent(context, PodcastDetailActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("podcast", Parcels.wrap(podcast));
-                goToSourcePodcast.putExtra("bundle", bundle);
-                context.startActivity(goToSourcePodcast);
-            }
-        });
 
         // Sets the click listener to open the episode player activity
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
