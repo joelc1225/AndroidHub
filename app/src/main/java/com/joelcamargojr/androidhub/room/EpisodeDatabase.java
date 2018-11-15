@@ -9,6 +9,7 @@ import com.joelcamargojr.androidhub.model.Episode;
 
 import timber.log.Timber;
 
+// Database that will hold the user's favorite episodes
 @Database(entities = {Episode.class}, version = 1, exportSchema = false)
 public abstract class EpisodeDatabase extends RoomDatabase{
 

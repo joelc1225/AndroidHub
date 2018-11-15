@@ -3,6 +3,7 @@ package com.joelcamargojr.androidhub.model;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -12,7 +13,9 @@ import org.parceler.Parcel;
 @Parcel
 public class Episode {
 
+    @PrimaryKey
     @SerializedName("title")
+    @NonNull
     public String title;
     @SerializedName("audio")
     public String audioUrl;
@@ -27,8 +30,6 @@ public class Episode {
     @SerializedName("listennotes_url")
     public String listennotes_url;
     public long last_position;
-    @PrimaryKey(autoGenerate = true)
-    public int database_id;
 
     // empty constructor for Parceler
     @Ignore
@@ -36,7 +37,7 @@ public class Episode {
     }
 
     @Ignore
-    public Episode(String title, String audioUrl, int audio_length, String id, String description,
+    public Episode(@NonNull String title, String audioUrl, int audio_length, String id, String description,
                    long date, String listennotes_url) {
         this.title = title;
         this.audioUrl = audioUrl;
@@ -48,8 +49,8 @@ public class Episode {
     }
 
     // Constructor for Room
-    public Episode(String title, String audioUrl, int audio_length, String id, String description,
-                   long date, String listennotes_url, long last_position, int database_id) {
+    public Episode(@NonNull String title, String audioUrl, int audio_length, String id, String description,
+                   long date, String listennotes_url, long last_position) {
         this.title = title;
         this.audioUrl = audioUrl;
         this.audio_length = audio_length;
@@ -58,6 +59,5 @@ public class Episode {
         this.date = date;
         this.listennotes_url = listennotes_url;
         this.last_position = last_position;
-        this.database_id = database_id;
     }
 }
