@@ -1,7 +1,6 @@
 package com.joelcamargojr.androidhub.data;
 
 import android.app.Application;
-import android.arch.lifecycle.MutableLiveData;
 import android.os.AsyncTask;
 
 import com.joelcamargojr.androidhub.model.Episode;
@@ -12,7 +11,7 @@ import java.util.List;
 
 public class Repository {
 
-    private MutableLiveData<List<Episode>> mEpisodesList;
+    private List<Episode> mEpisodesList;
     private List<Episode> mFaveEpisodesList;
     private EpisodeDao mEpisodeDao;
 
@@ -24,7 +23,7 @@ public class Repository {
     }
 
     // Gets Podcast episodes for the MainActivity's RecyclerView
-    MutableLiveData<List<Episode>> getAllEpisodes() {
+    List<Episode> getAllEpisodes() {
         return mEpisodesList;
     }
 

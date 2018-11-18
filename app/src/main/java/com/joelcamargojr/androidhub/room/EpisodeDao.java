@@ -12,6 +12,7 @@ import java.util.List;
 @Dao
 public interface EpisodeDao {
 
+    // Queries for the whole list of favorite episodes
     @Query("SELECT * FROM episodes")
     List<Episode> getAllEpisodes();
 

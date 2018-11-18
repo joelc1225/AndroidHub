@@ -1,24 +1,27 @@
 package com.joelcamargojr.androidhub.viewModels;
 
-import android.arch.lifecycle.MutableLiveData;
-import android.arch.lifecycle.ViewModel;
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
 
-import com.joelcamargojr.androidhub.model.Episode;
+import com.joelcamargojr.androidhub.data.NetworkDatasource;
+import com.joelcamargojr.androidhub.model.Podcast;
 
-public class EpisodePlayerActivityViewModel extends ViewModel {
+public class EpisodePlayerActivityViewModel extends AndroidViewModel {
 
     // Episode the user is looking at
-    private MutableLiveData<Episode> mEpisode;
+    private Podcast mPodcast;
+    private NetworkDatasource mNetworkDatasource;
 
-    public EpisodePlayerActivityViewModel() {
-        mEpisode = new MutableLiveData<>();
+    public EpisodePlayerActivityViewModel(Application application) {
+        super(application);
+        mPodcast = getPodcast();
+        mNetworkDatasource = new NetworkDatasource(application);
     }
 
-    public MutableLiveData<Episode> getEpisode() {
-        return mEpisode;
-    }
-
-    public void setEpisode(Episode episode) {
-        mEpisode.postValue(episode);
+    public Podcast getPodcast() {
+        if (mPodcast == null) {
+            mPodcast = mNetworkDatasource.getPodcast();
+        }
+        return mPodcast;
     }
 }
