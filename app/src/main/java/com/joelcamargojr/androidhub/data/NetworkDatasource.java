@@ -38,6 +38,8 @@ public class NetworkDatasource {
 
     public Podcast getPodcast() {
 
+        Timber.d("Inside NetworkDatasource getPodcast method");
+
         if (fragPodcast == null) {
             Timber.d("Podcast data is null. Making network request.");
             // sets podcast ids needed for api calls

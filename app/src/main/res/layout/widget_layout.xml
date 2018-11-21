@@ -1,5 +1,5 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="250dp"
+    android:layout_width="180dp"
     android:layout_height="110dp"
     android:background="@android:color/white"
     android:padding="@dimen/widget_margin">
@@ -10,6 +10,7 @@
         android:id="@+id/appwidget_text"
         android:text="@string/app_name"
         android:layout_centerHorizontal="true"
+        android:textAlignment="center"
         android:layout_margin="8dp"
         android:maxLines="2"
         android:ellipsize="end"

@@ -1,35 +1,56 @@
 package com.joelcamargojr.androidhub.data;
 
-import android.app.Application;
+import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
 import com.joelcamargojr.androidhub.model.Episode;
+import com.joelcamargojr.androidhub.model.Podcast;
 import com.joelcamargojr.androidhub.room.EpisodeDao;
-import com.joelcamargojr.androidhub.room.EpisodeDatabase;
 
 import java.util.List;
 
+import timber.log.Timber;
+
 public class Repository {
 
-    private List<Episode> mEpisodesList;
-    private List<Episode> mFaveEpisodesList;
+    // For singleton instantiation
     private EpisodeDao mEpisodeDao;
+    private NetworkDatasource mNetworkDatasource;
+    private static final Object LOCK = new Object();
+    private static Repository sInstance;
+    private boolean mInitialized = false;
 
-    public Repository(Application application) {
-        EpisodeDatabase db = EpisodeDatabase.getInstance(application);
-        mEpisodeDao = db.episodeDao();
-        this.mFaveEpisodesList = mEpisodeDao.getAllEpisodes();
-        this.mEpisodesList = getAllEpisodes();
+    private Podcast mPodcast;
+
+    private Repository(EpisodeDao episodeDao, NetworkDatasource networkDatasource) {
+        mEpisodeDao = episodeDao;
+        mNetworkDatasource = networkDatasource;
+    }
+
+    public synchronized static Repository getInstance(EpisodeDao episodeDao, NetworkDatasource networkDatasource) {
+        Timber.d("Getting the repository instance");
+        if (sInstance == null) {
+            synchronized (LOCK) {
+                sInstance = new Repository(episodeDao, networkDatasource);
+                Timber.d("Made new repository");
+            }
+        }
+        return sInstance;
     }
 
     // Gets Podcast episodes for the MainActivity's RecyclerView
-    List<Episode> getAllEpisodes() {
-        return mEpisodesList;
+    public List<Episode> getAllEpisodesFromApi() {
+
+        Timber.d("About to getAllEpisodesfromAPI INSIDE REPO");
+        if (mPodcast == null) {
+            mPodcast = mNetworkDatasource.getPodcast();
+        }
+        return mPodcast.episodeArrayList;
     }
 
-    // Gets the episodes from the FavoriteEpisod
-    List<Episode> getFaveEpisodesList() {
-        return mFaveEpisodesList;
+    // Gets the episodes from the database
+    public LiveData<List<Episode>> getFaveEpisodesList() {
+       return mEpisodeDao.getAllFavoriteEpisodes();
     }
 
     // Inserts new favorite episode to Room database
