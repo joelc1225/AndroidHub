@@ -1,6 +1,5 @@
 package com.joelcamargojr.androidhub.data;
 
-import android.arch.lifecycle.LiveData;
 import android.os.AsyncTask;
 
 import com.joelcamargojr.androidhub.model.Episode;
@@ -9,6 +8,8 @@ import com.joelcamargojr.androidhub.room.EpisodeDao;
 
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import timber.log.Timber;
 
 public class Repository {
@@ -18,13 +19,13 @@ public class Repository {
     private NetworkDatasource mNetworkDatasource;
     private static final Object LOCK = new Object();
     private static Repository sInstance;
-    private boolean mInitialized = false;
 
-    private Podcast mPodcast;
+    private MutableLiveData<Podcast> mPodcast;
 
     private Repository(EpisodeDao episodeDao, NetworkDatasource networkDatasource) {
         mEpisodeDao = episodeDao;
         mNetworkDatasource = networkDatasource;
+
     }
 
     public synchronized static Repository getInstance(EpisodeDao episodeDao, NetworkDatasource networkDatasource) {
@@ -39,18 +40,17 @@ public class Repository {
     }
 
     // Gets Podcast episodes for the MainActivity's RecyclerView
-    public List<Episode> getAllEpisodesFromApi() {
+    public MutableLiveData<Podcast> getPodcastFromApi() {
 
-        Timber.d("About to getAllEpisodesfromAPI INSIDE REPO");
-        if (mPodcast == null) {
-            mPodcast = mNetworkDatasource.getPodcast();
-        }
-        return mPodcast.episodeArrayList;
+        Timber.d("About to getPodcastfromAPI INSIDE REPO");
+        mPodcast = mNetworkDatasource.getPodcastDataFromApi();
+
+        return mPodcast;
     }
 
     // Gets the episodes from the database
     public LiveData<List<Episode>> getFaveEpisodesList() {
-       return mEpisodeDao.getAllFavoriteEpisodes();
+        return mEpisodeDao.getAllFavoriteEpisodes();
     }
 
     // Inserts new favorite episode to Room database

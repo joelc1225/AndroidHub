@@ -1,11 +1,12 @@
 package com.joelcamargojr.androidhub.recyclerview;
 
+import androidx.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,24 +16,22 @@ import android.widget.TextView;
 import com.joelcamargojr.androidhub.R;
 import com.joelcamargojr.androidhub.activities.EpisodePlayerActivity;
 import com.joelcamargojr.androidhub.model.Episode;
-import com.joelcamargojr.androidhub.model.Podcast;
 import com.squareup.picasso.Picasso;
 
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class MainRecyclerviewAdapter extends RecyclerView.Adapter<MainRecyclerviewAdapter.ViewHolder> {
 
-    private Podcast podcast;
-    private Context context;
-    private ArrayList<Episode> episodesArrayList;
+    private Context mContext;
+    private MutableLiveData<ArrayList<Episode>> mEpisodesArrayList;
 
     // Constructor
-    public MainRecyclerviewAdapter(Podcast podcast, Context context) {
-        this.podcast = podcast;
-        this.context = context;
-        episodesArrayList = podcast.episodeArrayList;
+    public MainRecyclerviewAdapter(MutableLiveData<ArrayList<Episode>> episodes, Context mContext) {
+        this.mContext = mContext;
+        mEpisodesArrayList = episodes;
     }
 
     @NonNull
@@ -46,41 +45,41 @@ public class MainRecyclerviewAdapter extends RecyclerView.Adapter<MainRecyclervi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        final Episode currentEpisode = episodesArrayList.get(position);
+        final Episode currentEpisode = Objects.requireNonNull(mEpisodesArrayList.getValue()).get(position);
 
         // Using saved drawable instead of imageUrl for highRes
         Picasso.get().load(R.drawable.fragmented_image)
                 .into(holder.imageView);
 
-        holder.sourceNameTextview.setText(podcast.title);
+        holder.sourceNameTextview.setText(mContext.getString(R.string.label_fragmented_podcast));
         holder.titleTextview.setText(currentEpisode.title);
 
         // Sets the click listener to open the episode player activity
         holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent goToPlayerIntent = new Intent(context, EpisodePlayerActivity.class);
+                Intent goToPlayerIntent = new Intent(mContext, EpisodePlayerActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("episode", Parcels.wrap(currentEpisode));
                 goToPlayerIntent.putExtra("bundle", bundle);
-                context.startActivity(goToPlayerIntent);
+                mContext.startActivity(goToPlayerIntent);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return podcast.episodeArrayList.size();
+        return Objects.requireNonNull(mEpisodesArrayList.getValue()).size();
     }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView titleTextview;
+        TextView titleTextview;
         public ImageView imageView;
-        public TextView sourceNameTextview;
-        public ConstraintLayout constraintLayout;
+        TextView sourceNameTextview;
+        ConstraintLayout constraintLayout;
 
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             titleTextview = itemView.findViewById(R.id.titleTv);
             imageView = itemView.findViewById(R.id.imageView);

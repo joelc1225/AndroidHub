@@ -1,27 +1,28 @@
 package com.joelcamargojr.androidhub.viewModels;
 
-import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
+import com.joelcamargojr.androidhub.data.Repository;
+import com.joelcamargojr.androidhub.model.Episode;
 
-import com.joelcamargojr.androidhub.data.NetworkDatasource;
-import com.joelcamargojr.androidhub.model.Podcast;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
-public class EpisodePlayerActivityViewModel extends AndroidViewModel {
+public class EpisodePlayerActivityViewModel extends ViewModel {
 
     // Episode the user is looking at
-    private Podcast mPodcast;
-    private NetworkDatasource mNetworkDatasource;
+    private Repository mRepository;
+    private MutableLiveData<Episode> mEpisodeMutableLiveData;
 
-    public EpisodePlayerActivityViewModel(Application application) {
-        super(application);
-        mPodcast = getPodcast();
-        mNetworkDatasource = new NetworkDatasource(application);
+    public EpisodePlayerActivityViewModel(Repository repository, Episode episode) {
+        this.mRepository = repository;
+        mEpisodeMutableLiveData = new MutableLiveData<>();
+        mEpisodeMutableLiveData.setValue(episode);
     }
 
-    public Podcast getPodcast() {
-        if (mPodcast == null) {
-            mPodcast = mNetworkDatasource.getPodcast();
-        }
-        return mPodcast;
+    public void insertFavorite(Episode episode) {
+        mRepository.insertFavorite(episode);
+    }
+
+    public void deleteFavorite(Episode episode) {
+        mRepository.deleteFavorite(episode);
     }
 }
