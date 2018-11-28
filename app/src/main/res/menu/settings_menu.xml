@@ -3,11 +3,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/action_find_a_coding_spot"
-        android:title="@string/find_a_coding_spot_label"
-        app:showAsAction="never" />
-
     <item android:id="@+id/action_credits"
         android:title="@string/credits_label"
         app:showAsAction="never"/>

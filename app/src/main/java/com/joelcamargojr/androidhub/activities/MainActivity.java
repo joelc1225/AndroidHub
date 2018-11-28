@@ -30,34 +30,39 @@ public class MainActivity extends AppCompatActivity {
 
     MainActivityViewModel mViewModel;
     MutableLiveData<Podcast> mPodcast;
+    ActivityMainBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // create data binding instance for views
-        final ActivityMainBinding binding =
-                DataBindingUtil.setContentView(this, R.layout.activity_main);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        // set up custom toolbar
-        Toolbar toolbar = binding.toolbar;
+        // set up toolbar
+        Toolbar toolbar = mBinding.toolbar;
         setSupportActionBar(toolbar);
-        binding.mainProgressbar.setVisibility(View.VISIBLE);
+        mBinding.mainProgressbar.setVisibility(View.VISIBLE);
 
+        // Creates ViewModel
         MainViewModelFactory factory = new MainViewModelFactory(InjectorUtils.provideRepository(this));
         mViewModel = ViewModelProviders.of(this, factory).get(MainActivityViewModel.class);
+
+        // Instantiates Podcast data needed to inflate UI with API call
         mPodcast = mViewModel.getPodcastData();
+
+        // Observes the data when retrieved from the API call
         mPodcast.observe(this, new Observer<Podcast>() {
             @Override
             public void onChanged(@Nullable final Podcast podcast) {
 
-                binding.mainProgressbar.setVisibility(View.INVISIBLE);
+                mBinding.mainProgressbar.setVisibility(View.INVISIBLE);
 
                 if (podcast != null) {
                     bindUi();
                 } else {
-                    binding.retryButton.setVisibility(View.VISIBLE);
-                    binding.retryButton.setOnClickListener(new View.OnClickListener() {
+                    mBinding.retryButton.setVisibility(View.VISIBLE);
+                    mBinding.retryButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Toast.makeText(getApplicationContext(), "Retrying Request", Toast.LENGTH_LONG).show();
@@ -67,22 +72,25 @@ public class MainActivity extends AppCompatActivity {
                     });
                 }
             }
-
-            private void bindUi() {
-                mViewModel.setEpisodesList();
-                RecyclerView recyclerView = binding.recyListenFrag;
-                MainRecyclerviewAdapter adapter =
-                        new MainRecyclerviewAdapter(mViewModel.getEpisodesList(), getApplicationContext());
-                recyclerView.setAdapter(adapter);
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-                recyclerView.setLayoutManager(layoutManager);
-            }
         });
 
+        // If started from widget with no previously saved Episode data, will show this toast
         String widgetAction = getIntent().getAction();
         if (Objects.equals(widgetAction, getString(R.string.widgetToastAction))) {
             Toast.makeText(this, R.string.widgetToastMessage, Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+
+    private void bindUi() {
+        mViewModel.setEpisodesList();
+        RecyclerView recyclerView = mBinding.recyListenFrag;
+        MainRecyclerviewAdapter adapter =
+                new MainRecyclerviewAdapter(mViewModel.getEpisodesList(), getApplicationContext());
+        recyclerView.setAdapter(adapter);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
     }
 
 
@@ -97,11 +105,6 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 return true;
-            case R.id.action_find_a_coding_spot:
-                Toast.makeText(this, "CODING SPOT CLICKED", Toast.LENGTH_SHORT).show();
-                // TODO implement this
-                // launchLocationService();
-                break;
             case R.id.action_credits:
                 Toast.makeText(this, "CREDITS CLICKED", Toast.LENGTH_SHORT).show();
                 break;
