@@ -418,12 +418,10 @@ public class EpisodePlayerActivity extends AppCompatActivity {
                             .putExtra(getString(R.string.last_played_position_key), mPlayerPosition)
                             .putExtra(getString(R.string.started_from_widget_key), mStartedFromWidget));
                 }
-
-                Timber.d("2nd TESTboolean in player listener: %s", mServiceWasStarted);
             }
             else {
                 // User has either clicked pause, rewind, or fastforward
-                Timber.d("SEEKED, PAUSED, FF, or RW???");
+                Timber.d("SEEKED, PAUSED, FF, or RW");
                 // updates the episode data to SharedPreferences in case we need to rebuild
                 // the player\activity later
                 if (player.getCurrentPosition() != 0) {

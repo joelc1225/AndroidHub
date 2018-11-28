@@ -173,7 +173,7 @@ public class PodcastAudioService extends Service {
         playerNotificationManager.setSmallIcon(R.drawable.exo_notification_small_icon);
         playerNotificationManager.setColorized(true);
         playerNotificationManager.setMediaSessionToken(mediaSessionCompat.getSessionToken());
-        playerNotificationManager.setPriority(NotificationCompat.PRIORITY_LOW);
+        playerNotificationManager.setPriority(NotificationCompat. PRIORITY_DEFAULT);
         playerNotificationManager.setPlayer(player);
         MediaSessionConnector mediaSessionConnector = new MediaSessionConnector(mediaSessionCompat);
         mediaSessionConnector.setPlayer(player, null);
