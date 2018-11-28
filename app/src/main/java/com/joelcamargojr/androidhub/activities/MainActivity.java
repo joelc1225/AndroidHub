@@ -20,7 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,7 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 public class MainActivity extends AppCompatActivity {
 
     MainActivityViewModel mViewModel;
-    MutableLiveData<Podcast> mPodcast;
     ActivityMainBinding mBinding;
 
     @Override
@@ -48,11 +46,8 @@ public class MainActivity extends AppCompatActivity {
         MainViewModelFactory factory = new MainViewModelFactory(InjectorUtils.provideRepository(this));
         mViewModel = ViewModelProviders.of(this, factory).get(MainActivityViewModel.class);
 
-        // Instantiates Podcast data needed to inflate UI with API call
-        mPodcast = mViewModel.getPodcastData();
-
-        // Observes the data when retrieved from the API call
-        mPodcast.observe(this, new Observer<Podcast>() {
+        // Gets/Observes Podcast data needed to inflate UI with API call
+        mViewModel.getPodcastData().observe(this, new Observer<Podcast>() {
             @Override
             public void onChanged(@Nullable final Podcast podcast) {
 
@@ -67,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             Toast.makeText(getApplicationContext(), "Retrying Request", Toast.LENGTH_LONG).show();
                             //TODO retry request somehow
-                            mPodcast = mViewModel.getPodcastData();
                         }
                     });
                 }
@@ -80,8 +74,6 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.widgetToastMessage, Toast.LENGTH_SHORT).show();
         }
     }
-
-
 
     private void bindUi() {
         mViewModel.setEpisodesList();
