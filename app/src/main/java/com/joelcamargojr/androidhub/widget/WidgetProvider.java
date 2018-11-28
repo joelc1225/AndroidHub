@@ -11,7 +11,7 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
-import com.joelcamargojr.androidhub.MainActivity;
+import com.joelcamargojr.androidhub.activities.MainActivity;
 import com.joelcamargojr.androidhub.R;
 import com.joelcamargojr.androidhub.activities.EpisodePlayerActivity;
 import com.joelcamargojr.androidhub.model.Episode;

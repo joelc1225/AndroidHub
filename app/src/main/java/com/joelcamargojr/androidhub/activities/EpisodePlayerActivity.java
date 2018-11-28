@@ -4,11 +4,9 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.databinding.DataBindingUtil;
 import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.media.MediaMetadataCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
@@ -35,6 +33,8 @@ import org.parceler.Parcels;
 
 import java.util.Objects;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import timber.log.Timber;
 
 public class EpisodePlayerActivity extends AppCompatActivity {
@@ -398,7 +398,8 @@ public class EpisodePlayerActivity extends AppCompatActivity {
                 }
 
                 Timber.d("2nd TESTboolean in player listener: %s", mServiceWasStarted);
-            } else {
+            }
+            else {
                 // User has either clicked pause, rewind, or fastforward
                 Timber.d("SEEKED, PAUSED, FF, or RW???");
                 // updates the episode data to SharedPreferences in case we need to rebuild

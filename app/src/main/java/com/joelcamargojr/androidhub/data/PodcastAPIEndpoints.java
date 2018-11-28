@@ -16,5 +16,5 @@ public interface PodcastAPIEndpoints {
             "Accept: application/json"
     })
     @GET("api/v1/podcasts/{podcast_id}/")
-    Call<Podcast> getFragmentedPodcastList(@Path("podcast_id") String id);
+    Call<Podcast> getFragmentedPodcast(@Path("podcast_id") String id);
 }

@@ -17,8 +17,8 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.support.annotation.Nullable;
-import android.support.v4.app.NotificationCompat;
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -35,6 +35,7 @@ import com.google.android.exoplayer2.ui.PlayerNotificationManager;
 import com.joelcamargojr.androidhub.Utils.ExoPlayerUtils;
 import com.joelcamargojr.androidhub.Utils.MetaDataUtils;
 import com.joelcamargojr.androidhub.activities.EpisodePlayerActivity;
+import com.joelcamargojr.androidhub.activities.MainActivity;
 
 import org.parceler.Parcels;
 

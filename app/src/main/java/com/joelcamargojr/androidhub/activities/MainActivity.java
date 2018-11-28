@@ -1,20 +1,12 @@
-package com.joelcamargojr.androidhub;
+package com.joelcamargojr.androidhub.activities;
 
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.databinding.DataBindingUtil;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.joelcamargojr.androidhub.R;
 import com.joelcamargojr.androidhub.Utils.InjectorUtils;
 import com.joelcamargojr.androidhub.databinding.ActivityMainBinding;
 import com.joelcamargojr.androidhub.model.Podcast;
@@ -23,6 +15,16 @@ import com.joelcamargojr.androidhub.viewModels.MainActivityViewModel;
 import com.joelcamargojr.androidhub.viewModels.MainViewModelFactory;
 
 import java.util.Objects;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
