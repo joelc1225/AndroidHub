@@ -25,4 +25,5 @@ public class EpisodePlayerActivityViewModel extends ViewModel {
     public void deleteFavorite(Episode episode) {
         mRepository.deleteFavorite(episode);
     }
+
 }

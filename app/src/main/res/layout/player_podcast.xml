@@ -7,6 +7,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/bookmark_animationView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/scrollView3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:lottie_autoPlay="false"
+            app:lottie_loop="false"
+            app:lottie_fileName="bookmark_animation.json"
+            app:lottie_colorFilter="@color/colorBlack" />
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

@@ -59,6 +59,9 @@ public class EpisodePlayerActivity extends AppCompatActivity {
     SharedPreferences.Editor sharedPrefsEditor;
     private static String audioUrlString;
 
+    //test boolean
+    boolean isBookmarked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +70,26 @@ public class EpisodePlayerActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         mSharedPreferences = this.getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
 
+
         binding.episodePlayerProgressbar.setVisibility(View.VISIBLE);
+        binding.bookmarkAnimationView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isBookmarked) {
+                    Timber.d("BOOKMARKING");
+                    binding.bookmarkAnimationView.setSpeed(1);
+                    binding.bookmarkAnimationView.playAnimation();
+                    isBookmarked = true;
+                } else {
+                    Timber.d("UNBOOKMARKING");
+                    binding.bookmarkAnimationView.setSpeed(-2f);
+                    isBookmarked = false;
+                    binding.bookmarkAnimationView.playAnimation();
+                }
+
+
+            }
+        });
 
         getBundleAndExtractEpisodeData();
 
