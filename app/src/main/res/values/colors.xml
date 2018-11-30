@@ -3,5 +3,7 @@
     <color name="colorPrimary">#1caa14</color>
     <color name="colorPrimaryDark">#007900</color>
     <color name="colorAccent">#50a6ed</color>
+
     <color name="colorBlack">#000</color>
+
 </resources>
