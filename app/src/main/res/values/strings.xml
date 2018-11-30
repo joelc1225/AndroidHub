@@ -31,4 +31,5 @@
     <string name="podcast_name_label">Podcast Name</string>
     <string name="article_title_label">Article Title</string>
     <string name="episode_description_label">Episode Description</string>
+    <string name="no_episodes_are_bookmarked">No episodes are bookmarked!</string>
 </resources>

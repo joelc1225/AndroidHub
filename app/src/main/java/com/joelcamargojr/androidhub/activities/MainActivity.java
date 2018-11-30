@@ -83,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void bindUi() {
         mViewModel.setEpisodesList();
-        RecyclerView recyclerView = mBinding.recyListenFrag;
+        RecyclerView recyclerView = mBinding.recyMain;
         MainRecyclerviewAdapter adapter =
                 new MainRecyclerviewAdapter(mViewModel.getEpisodesList(), getApplicationContext());
         recyclerView.setAdapter(adapter);
