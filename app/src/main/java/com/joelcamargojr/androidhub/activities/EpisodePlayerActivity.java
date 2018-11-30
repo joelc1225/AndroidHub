@@ -89,7 +89,8 @@ public class EpisodePlayerActivity extends AppCompatActivity {
 
         setupActivity();
 
-
+        // TODO Here is where I interact with the ROOM database
+        // Clicking the Bookmark imageAnimation will Insert and Remove the Episode from the ROOM database
         binding.bookmarkAnimationView.setOnClickListener(v -> {
             if (!mIsFavorite) {
                 Timber.d("BOOKMARKING");
@@ -147,7 +148,7 @@ public class EpisodePlayerActivity extends AppCompatActivity {
         // Checks is the current episode is in our Favorites database
         //TODO Query the ROOM database with the title of the Episode that is currently displaying to see
         // if its already in the database. If it is, we want to change the bookmark image to be filled in.
-        Timber.d("ABOUT TO ASYNC SINGLE EPISODE");
+        Timber.d("ABOUT TO ASYNC FOR SINGLE EPISODE");
         new querySingleEpisodeAsyncTask().execute(currentEpisode.title);
     }
 
