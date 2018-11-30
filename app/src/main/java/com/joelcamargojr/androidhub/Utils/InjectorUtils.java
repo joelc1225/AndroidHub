@@ -1,8 +1,8 @@
 package com.joelcamargojr.androidhub.Utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.joelcamargojr.androidhub.data.NetworkDatasource;
 import com.joelcamargojr.androidhub.data.Repository;
 import com.joelcamargojr.androidhub.room.EpisodeDatabase;
@@ -14,7 +14,7 @@ public class InjectorUtils {
      * one instantiation per app run through
      */
 
-    @SuppressLint("StaticFieldLeak")
+    private static FirebaseAnalytics mFirebaseAnalytics;
 
     public static Repository provideRepository(Context context) {
 
@@ -27,5 +27,13 @@ public class InjectorUtils {
 
     private static NetworkDatasource provideNetworkDatasource(Context context) {
         return NetworkDatasource.getInstance(context);
+    }
+
+    public static FirebaseAnalytics provideFirebaseAnalytics(Context context) {
+
+        if (mFirebaseAnalytics == null) {
+            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+        }
+        return mFirebaseAnalytics;
     }
 }

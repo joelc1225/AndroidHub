@@ -6,6 +6,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.joelcamargojr.androidhub.R;
 import com.joelcamargojr.androidhub.Utils.InjectorUtils;
 import com.joelcamargojr.androidhub.databinding.ActivityMainBinding;
@@ -24,12 +26,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MainActivity extends AppCompatActivity {
 
-    MainActivityViewModel mViewModel;
+    private MainActivityViewModel mViewModel;
     ActivityMainBinding mBinding;
+    FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseApp.initializeApp(this);
 
         // create data binding instance for views
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
@@ -38,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = mBinding.toolbar;
         setSupportActionBar(toolbar);
         mBinding.mainProgressbar.setVisibility(View.VISIBLE);
+
+        // Instantiate Firebase Analytics (one instance per app launch)
+        mFirebaseAnalytics = InjectorUtils.provideFirebaseAnalytics(this);
 
         // Creates ViewModel
         MainViewModelFactory factory = new MainViewModelFactory(InjectorUtils.provideRepository(this));
@@ -81,6 +89,11 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
+
+        // Logs title of first episode in Episode list into Firebase Analytics
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.QUANTITY, mViewModel.getEpisodesList().getValue().get(0).title);
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
     @Override
