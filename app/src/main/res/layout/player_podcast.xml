@@ -16,9 +16,9 @@
             app:layout_constraintBottom_toTopOf="@+id/scrollView_episode_player"
             app:layout_constraintEnd_toEndOf="parent"
             app:lottie_autoPlay="false"
-            app:lottie_loop="false"
+            app:lottie_colorFilter="@color/colorBlack"
             app:lottie_fileName="bookmark_animation.json"
-            app:lottie_colorFilter="@color/colorBlack" />
+            app:lottie_loop="false" />
 
         <ProgressBar
             android:id="@+id/episode_player_progressbar"
@@ -28,7 +28,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imageView_podcast"
@@ -88,8 +88,6 @@
                 tools:text="This is a brief description of the podcast and what it is about. I need more info to type to see how this wraps. My name is blah blah blah and this episode is about really cool android stuff. I cant wait for you guys to listen to this episode about really awesome Android stuff" />
 
         </ScrollView>
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
