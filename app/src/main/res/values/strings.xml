@@ -1,29 +1,13 @@
 <resources>
     <string name="app_name">Android Hub</string>
-    <string name="profile_label">Edit Profile</string>
-    <string name="my_bookmarks_label">My Bookmarks</string>
-    <string name="surprise_me_label">Surprise Me</string>
-    <string name="profile_picture_image_description">Profile Picture Image</string>
-    <string name="watch_label">Watch</string>
-    <string name="listen_label">Listen</string>
-    <string name="find_a_coding_spot_label">Find a coding spot!</string>
     <string name="credits_label">Credits</string>
     <string name="fragmentedPodcastId">6b550601c6824112a90abcd413532196</string>
-    <string name="minutes_label">Minutes</string>
     <string name="podcast_image_descrip">Podcast Image</string>
     <string name="channel_name_player">Player Channel</string>
     <string name="channel_id_player">player_channel_id</string>
-    <string name="channel_id_default">default_channel_id</string>
-    <string name="pause_label">Pause</string>
-    <string name="play_label">Play</string>
-    <string name="label_rewind">Rewind</string>
     <string name="label_fragmented_podcast">Fragmented Podcast</string>
     <string name="last_played_episode_key">last_played_episode_title_key</string>
-    <string name="appwidget_text">EXAMPLE</string>
-    <string name="add_widget">Add widget</string>
     <string name="widget_play_button">Widget Play Button</string>
-    <string name="widget_rewind_button">Widget Rewind Button</string>
-    <string name="widget_fastforward_button">Widget Fastforward Button</string>
     <string name="last_played_audioUrl_key">last_played_audioUrl_key</string>
     <string name="last_played_position_key">last_played_position_key</string>
     <string name="service_was_started_key">service_was_started_key</string>
@@ -41,7 +25,10 @@
     <string name="widgetToastAction">widgetClickWithToast</string>
     <string name="started_from_widget_key">started_from_widget_key</string>
     <string name="retry_connection">Retry Connection</string>
-    <string name="title_activity_maps">Map</string>
     <string name="retrying_request_toast">Retrying Request</string>
     <string name="favorites_label">Favorites</string>
+    <string name="podcast_poster_label">Podcast Poster</string>
+    <string name="podcast_name_label">Podcast Name</string>
+    <string name="article_title_label">Article Title</string>
+    <string name="episode_description_label">Episode Description</string>
 </resources>

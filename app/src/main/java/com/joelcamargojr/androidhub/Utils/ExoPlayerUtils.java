@@ -1,5 +1,6 @@
 package com.joelcamargojr.androidhub.Utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
 
@@ -21,6 +22,7 @@ import timber.log.Timber;
 
 public class ExoPlayerUtils {
 
+    @SuppressLint("StaticFieldLeak")
     private static SimpleExoPlayer player;
 
     // if the player is null, creates a new player. Otherwise returns existing

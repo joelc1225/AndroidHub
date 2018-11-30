@@ -13,16 +13,12 @@
             android:layout_height="80dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toTopOf="@+id/scrollView3"
+            app:layout_constraintBottom_toTopOf="@+id/scrollView_episode_player"
             app:layout_constraintEnd_toEndOf="parent"
             app:lottie_autoPlay="false"
             app:lottie_loop="false"
             app:lottie_fileName="bookmark_animation.json"
             app:lottie_colorFilter="@color/colorBlack" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <ProgressBar
             android:id="@+id/episode_player_progressbar"
@@ -73,7 +69,7 @@
         </com.google.android.exoplayer2.ui.PlayerControlView>
 
         <ScrollView
-            android:id="@+id/scrollView3"
+            android:id="@+id/scrollView_episode_player"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="8dp"
@@ -88,7 +84,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="Description"
+                android:text="@string/episode_description_label"
                 tools:text="This is a brief description of the podcast and what it is about. I need more info to type to see how this wraps. My name is blah blah blah and this episode is about really cool android stuff. I cant wait for you guys to listen to this episode about really awesome Android stuff" />
 
         </ScrollView>

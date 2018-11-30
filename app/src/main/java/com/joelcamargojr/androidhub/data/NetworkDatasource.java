@@ -1,5 +1,6 @@
 package com.joelcamargojr.androidhub.data;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.widget.Toast;
 
@@ -12,19 +13,20 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import timber.log.Timber;
 
+@SuppressWarnings("ALL")
 public class NetworkDatasource {
 
     private static Podcast fragPodcast;
     private static MutableLiveData<Podcast> mPodcastData = new MutableLiveData<>();
-    private Call<Podcast> call;
 
     // For Singleton instantiation
     private static final Object LOCK = new Object();
+    @SuppressLint("StaticFieldLeak")
     private static NetworkDatasource sInstance;
     private Context mContext;
 
 
-    public NetworkDatasource(Context context) {
+    private NetworkDatasource(Context context) {
         this.mContext = context;
     }
 
@@ -38,7 +40,7 @@ public class NetworkDatasource {
         return sInstance;
     }
 
-    public MutableLiveData<Podcast> getPodcastDataFromApi() {
+    MutableLiveData<Podcast> getPodcastDataFromApi() {
 
         // sets podcast ids needed for api calls
         String fragmentedPodcastId = mContext.getString(R.string.fragmentedPodcastId);
@@ -47,7 +49,7 @@ public class NetworkDatasource {
 
         // gets list of episodes for given fragPodcast ID
         // Calls API to get the list of recent Podcast episodes for given fragPodcast ID
-        call = podcastAPIInterface.getFragmentedPodcast(fragmentedPodcastId);
+        Call<Podcast> call = podcastAPIInterface.getFragmentedPodcast(fragmentedPodcastId);
 
         call.enqueue(new Callback<Podcast>() {
             @Override

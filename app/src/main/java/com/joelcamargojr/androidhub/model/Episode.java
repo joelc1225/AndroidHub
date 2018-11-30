@@ -1,13 +1,13 @@
 package com.joelcamargojr.androidhub.model;
 
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
-import androidx.annotation.NonNull;
-
 import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
+
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
 
 @Entity(tableName = "episodes")
 @Parcel

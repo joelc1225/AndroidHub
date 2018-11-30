@@ -10,7 +10,7 @@ import timber.log.Timber;
 public class EpisodePlayerActivityViewModel extends ViewModel {
 
     // Episode the user is looking at
-    private Repository mRepository;
+    private final Repository mRepository;
     private MutableLiveData<Episode> mEpisodeMutableLiveData;
 
     public EpisodePlayerActivityViewModel(Repository repository, Episode episode) {

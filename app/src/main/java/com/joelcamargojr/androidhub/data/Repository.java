@@ -19,7 +19,6 @@ public class Repository {
     private NetworkDatasource mNetworkDatasource;
     private static final Object LOCK = new Object();
     private static Repository sInstance;
-    private MutableLiveData<Podcast> mPodcast;
 
     private Repository(EpisodeDao episodeDao, NetworkDatasource networkDatasource) {
         mEpisodeDao = episodeDao;
@@ -40,11 +39,8 @@ public class Repository {
 
     // Gets Podcast episodes for the MainActivity's RecyclerView
     public MutableLiveData<Podcast> getPodcastFromApi() {
-
         Timber.d("About to getPodcastfromAPI INSIDE REPO");
-        mPodcast = mNetworkDatasource.getPodcastDataFromApi();
-
-        return mPodcast;
+        return mNetworkDatasource.getPodcastDataFromApi();
     }
 
     // Gets the episodes from the database

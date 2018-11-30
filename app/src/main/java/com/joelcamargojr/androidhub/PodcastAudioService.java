@@ -1,5 +1,6 @@
 package com.joelcamargojr.androidhub;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -17,8 +18,6 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
-import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
 import android.support.v4.media.MediaMetadataCompat;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
@@ -39,6 +38,8 @@ import com.joelcamargojr.androidhub.activities.MainActivity;
 
 import org.parceler.Parcels;
 
+import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 import timber.log.Timber;
 
 public class PodcastAudioService extends Service {
@@ -46,6 +47,7 @@ public class PodcastAudioService extends Service {
     private final String TAG = PodcastAudioService.class.getSimpleName();
     private static MediaSessionCompat mediaSessionCompat;
     private PlaybackStateCompat.Builder stateBuilder;
+    @SuppressLint("StaticFieldLeak")
     public static SimpleExoPlayer player;
     private AudioManager mAudioManager;
     private MyFocusListener mMyFocusListener;
@@ -121,15 +123,10 @@ public class PodcastAudioService extends Service {
                         bundle.putBoolean("startedFromNotification", true);
                         episodeActivityIntent.putExtra("bundle", bundle);
 
-                        PendingIntent pendingIntent = TaskStackBuilder.create(context)
+                        return TaskStackBuilder.create(context)
                                 .addNextIntent(mainActivityIntent)
                                 .addNextIntentWithParentStack(episodeActivityIntent)
                                 .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
-//                        return PendingIntent.getActivity(context, 0, episodeActivityIntent,
-//                                PendingIntent.FLAG_UPDATE_CURRENT);
-
-                        return pendingIntent;
                     }
 
                     @Nullable
@@ -484,6 +481,7 @@ public class PodcastAudioService extends Service {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 return (mAudioManager.requestAudioFocus(mFocusRequest) == AudioManager.AUDIOFOCUS_REQUEST_GRANTED);
             } else {
+                @SuppressWarnings("deprecation")
                 final int result = mAudioManager.requestAudioFocus(this,
                         AudioManager.STREAM_MUSIC,
                         AudioManager.AUDIOFOCUS_GAIN);

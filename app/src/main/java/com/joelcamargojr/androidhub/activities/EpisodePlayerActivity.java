@@ -1,5 +1,6 @@
 package com.joelcamargojr.androidhub.activities;
 
+import android.annotation.SuppressLint;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -45,9 +46,11 @@ import timber.log.Timber;
 
 public class EpisodePlayerActivity extends AppCompatActivity {
 
-    private static PlayerPodcastBinding binding;
+    @SuppressLint("StaticFieldLeak")
+    public static PlayerPodcastBinding binding;
     public static Episode currentEpisode;
-    MediaMetadataCompat mediaMetadataCompat;
+    private MediaMetadataCompat mediaMetadataCompat;
+    @SuppressLint("StaticFieldLeak")
     public static SimpleExoPlayer player;
     public static String mLastEpisodePlayed;
     public static String mPrefsLastEpisodePlayed;
@@ -66,6 +69,7 @@ public class EpisodePlayerActivity extends AppCompatActivity {
     private static String audioUrlString;
     static boolean mIsFavorite = false;
     EpisodePlayerActivityViewModel mViewModel;
+    @SuppressLint("StaticFieldLeak")
     private static Context mContext;
 
     @Override

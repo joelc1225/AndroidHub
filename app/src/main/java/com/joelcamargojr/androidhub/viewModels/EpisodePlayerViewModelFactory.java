@@ -10,7 +10,7 @@ import com.joelcamargojr.androidhub.model.Episode;
 public class EpisodePlayerViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private final Repository mRepository;
-    private Episode mEpisode;
+    private final Episode mEpisode;
 
     public EpisodePlayerViewModelFactory(Repository repository, Episode episode) {
         this.mRepository = repository;

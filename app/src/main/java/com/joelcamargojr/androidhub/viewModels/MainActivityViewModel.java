@@ -14,6 +14,7 @@ public class MainActivityViewModel extends ViewModel {
 
     private final Repository mRepository;
     private static MutableLiveData<Podcast> mPodcastData = new MutableLiveData<>();
+    @SuppressWarnings("CanBeFinal")
     private static MutableLiveData<ArrayList<Episode>> mEpisodes = new MutableLiveData<>();
 
     MainActivityViewModel(Repository repository) {

@@ -1,12 +1,8 @@
 package com.joelcamargojr.androidhub.recyclerview;
 
-import androidx.lifecycle.MutableLiveData;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +18,11 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.MutableLiveData;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class MainRecyclerviewAdapter extends RecyclerView.Adapter<MainRecyclerviewAdapter.ViewHolder> {
 
@@ -55,15 +56,12 @@ public class MainRecyclerviewAdapter extends RecyclerView.Adapter<MainRecyclervi
         holder.titleTextview.setText(currentEpisode.title);
 
         // Sets the click listener to open the episode player activity
-        holder.constraintLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent goToPlayerIntent = new Intent(mContext, EpisodePlayerActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putParcelable("episode", Parcels.wrap(currentEpisode));
-                goToPlayerIntent.putExtra("bundle", bundle);
-                mContext.startActivity(goToPlayerIntent);
-            }
+        holder.constraintLayout.setOnClickListener(v -> {
+            Intent goToPlayerIntent = new Intent(mContext, EpisodePlayerActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("episode", Parcels.wrap(currentEpisode));
+            goToPlayerIntent.putExtra("bundle", bundle);
+            mContext.startActivity(goToPlayerIntent);
         });
     }
 
@@ -75,7 +73,7 @@ public class MainRecyclerviewAdapter extends RecyclerView.Adapter<MainRecyclervi
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextview;
-        public ImageView imageView;
+        ImageView imageView;
         TextView sourceNameTextview;
         ConstraintLayout constraintLayout;
 
