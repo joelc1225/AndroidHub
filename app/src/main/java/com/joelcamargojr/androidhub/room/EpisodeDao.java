@@ -20,8 +20,8 @@ public interface EpisodeDao {
 
     // Queries for one episode item based off title ID
     // Used only to verify if an entry already exists in database
-    @Query("SELECT * FROM episodes WHERE id = :id")
-    LiveData<Episode> getFavoriteEpisodeById(String id);
+    @Query("SELECT * FROM episodes WHERE id =:id")
+    Episode getSingleEpisodeById(String id);
 
     @Insert (onConflict = OnConflictStrategy.IGNORE)
     void insertEpisode(Episode episode);

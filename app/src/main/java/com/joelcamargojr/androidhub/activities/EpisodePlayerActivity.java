@@ -2,9 +2,11 @@ package com.joelcamargojr.androidhub.activities;
 
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.media.MediaMetadataCompat;
 import android.text.Html;
@@ -38,13 +40,12 @@ import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import timber.log.Timber;
 
 public class EpisodePlayerActivity extends AppCompatActivity {
 
-    PlayerPodcastBinding binding;
+    private static PlayerPodcastBinding binding;
     public static Episode currentEpisode;
     MediaMetadataCompat mediaMetadataCompat;
     public static SimpleExoPlayer player;
@@ -63,8 +64,9 @@ public class EpisodePlayerActivity extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
     SharedPreferences.Editor sharedPrefsEditor;
     private static String audioUrlString;
-    boolean mIsFavorite = false;
+    static boolean mIsFavorite = false;
     EpisodePlayerActivityViewModel mViewModel;
+    private static Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +75,7 @@ public class EpisodePlayerActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.player_podcast);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         mSharedPreferences = this.getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
+        mContext = this;
 
         binding.episodePlayerProgressbar.setVisibility(View.VISIBLE);
 
@@ -138,26 +141,12 @@ public class EpisodePlayerActivity extends AppCompatActivity {
         mViewModel = ViewModelProviders.of(this, factory).get(EpisodePlayerActivityViewModel.class);
         // Sets the current episode data for the ViewModel
         mViewModel.setEpisodeMutableLiveData(currentEpisode);
+
         // Checks is the current episode is in our Favorites database
         //TODO Query the ROOM database with the title of the Episode that is currently displaying to see
         // if its already in the database. If it is, we want to change the bookmark image to be filled in.
-        mViewModel.checkIfFavorite(currentEpisode.title).observe(this, new Observer<Episode>() {
-            @Override
-            public void onChanged(Episode episode) {
-                Timber.d("INSIDE ON CHANGED");
-                if (episode == null) {
-                    Timber.d("EPISODE NOT IN DATABASE");
-                    // Do nothing
-                } else {
-                    Timber.d("EPISIDE ISSSSS IN DATABASE");
-                    // Set bookmark animationView to be filled in and ready to reverse animation
-                    binding.bookmarkAnimationView.setProgress(1);
-                    binding.bookmarkAnimationView.setFrame(49);
-                    binding.bookmarkAnimationView.setSpeed(-2);
-                    mIsFavorite = true;
-                }
-            }
-        });
+        Timber.d("ABOUT TO ASYNC SINGLE EPISODE");
+        new querySingleEpisodeAsyncTask().execute(currentEpisode.title);
     }
 
     // Checks state of app and variables to determine how we should setup the  activity
@@ -507,5 +496,36 @@ public class EpisodePlayerActivity extends AppCompatActivity {
     // and avoids re-creating a player
     public static SimpleExoPlayer getExistingPlayer() {
         return player;
+    }
+
+    // Fulfills rubric requirement of using asyncTask
+    // Fetches single episode from favorites database
+    private static class querySingleEpisodeAsyncTask extends AsyncTask<String, Void, Episode> {
+
+        // Constructor
+        querySingleEpisodeAsyncTask() {}
+
+        @Override
+        protected Episode doInBackground(String... strings) {
+            Timber.d("INSIDE SINGLE EPISODE DIB");
+            return InjectorUtils.provideRepository(mContext).getSingleEpisodeById(strings[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Episode episode) {
+            super.onPostExecute(episode);
+
+            if (episode == null) {
+                Timber.d("EPISODE NOT IN DATABASE");
+                // Do nothing
+            } else {
+                Timber.d("EPISIDE ISSSSS IN DATABASE");
+                // Set bookmark animationView to be filled in and ready to reverse animation
+                binding.bookmarkAnimationView.setProgress(1);
+                binding.bookmarkAnimationView.setFrame(49);
+                binding.bookmarkAnimationView.setSpeed(-2);
+                mIsFavorite = true;
+            }
+        }
     }
 }

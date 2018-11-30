@@ -64,9 +64,9 @@ public class Repository {
         new deleteAsyncTask().execute(episode);
     }
 
-    public LiveData<Episode> checkIfFavorite(String episodeTitle) {
-        Timber.d("QUERYING FOR POSSIBLE FAVORITE");
-        return mEpisodeDao.getFavoriteEpisodeById(episodeTitle);
+    public Episode getSingleEpisodeById(String episodeTitle) {
+        Timber.d("QUERYING DB FOR SINGLE ITEM FROM REPO");
+        return mEpisodeDao.getSingleEpisodeById(episodeTitle);
     }
 
     // Fulfills rubric requirement of using asyncTask
@@ -94,7 +94,6 @@ public class Repository {
         @Override
         protected Void doInBackground(final Episode... params) {
             Timber.d("INSIDE DELETE DIB: %s", params[0].title);
-
             mEpisodeDao.deleteEpisode(params[0]);
             return null;
         }
