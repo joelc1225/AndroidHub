@@ -29,6 +29,7 @@ android {
     buildTypes {
         debug {
             buildConfigField 'String', "ApiKey", AndroidHub_ApiKey
+            signingConfig signingConfigs.config
         }
         release {
             minifyEnabled false
