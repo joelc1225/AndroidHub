@@ -13,18 +13,14 @@ android {
     buildTypes {
         debug {
             buildConfigField 'String', "ApiKey", AndroidHub_ApiKey
-            buildConfigField 'String', "Maps_ApiKey", Maps_ApiKey
             resValue 'string', "api_key", AndroidHub_ApiKey
-            resValue 'string', "Maps_ApiKey", Maps_ApiKey
 
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', "ApiKey", AndroidHub_ApiKey
-            buildConfigField 'String', "Maps_ApiKey", Maps_ApiKey
             resValue 'string', "api_key", AndroidHub_ApiKey
-            resValue 'String', "Maps_ApiKey", Maps_ApiKey
 
         }
     }
