@@ -63,7 +63,7 @@ public class EpisodePlayerActivity extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
     SharedPreferences.Editor sharedPrefsEditor;
     private static String audioUrlString;
-    boolean isFavorite = false;
+    boolean mIsFavorite = false;
     EpisodePlayerActivityViewModel mViewModel;
 
     @Override
@@ -86,18 +86,18 @@ public class EpisodePlayerActivity extends AppCompatActivity {
 
 
         binding.bookmarkAnimationView.setOnClickListener(v -> {
-            if (!isFavorite) {
+            if (!mIsFavorite) {
                 Timber.d("BOOKMARKING");
                 binding.bookmarkAnimationView.setSpeed(1);
                 binding.bookmarkAnimationView.playAnimation();
                 mViewModel.insertFavorite(currentEpisode);
-                isFavorite = true;
+                mIsFavorite = true;
             } else {
                 Timber.d("UNBOOKMARKING");
                 binding.bookmarkAnimationView.setSpeed(-2f);
                 binding.bookmarkAnimationView.playAnimation();
                 mViewModel.deleteFavorite(currentEpisode);
-                isFavorite = false;
+                mIsFavorite = false;
             }
         });
 
@@ -154,7 +154,7 @@ public class EpisodePlayerActivity extends AppCompatActivity {
                     binding.bookmarkAnimationView.setProgress(1);
                     binding.bookmarkAnimationView.setFrame(49);
                     binding.bookmarkAnimationView.setSpeed(-2);
-                    isFavorite = true;
+                    mIsFavorite = true;
                 }
             }
         });
