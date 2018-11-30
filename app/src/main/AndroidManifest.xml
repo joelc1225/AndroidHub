@@ -40,6 +40,16 @@
                 android:value=".activities.MainActivity" />
         </activity>
 
+        <!-- FavoriteActivity -->
+        <activity
+            android:name=".activities.FavoritesActivity"
+            android:launchMode="singleTop"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activities.MainActivity" />
+        </activity>
+
         <!-- Receivers -->
         <receiver android:name=".widget.WidgetProvider">
             <intent-filter>

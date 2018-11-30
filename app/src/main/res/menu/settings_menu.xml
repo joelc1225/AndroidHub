@@ -4,11 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_favorites"
         android:title="@string/favorites_label"
-        app:showAsAction="never"/>
-
-    <item android:id="@+id/action_credits"
-        android:title="@string/credits_label"
         app:showAsAction="never"/>
 
 </menu>

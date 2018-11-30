@@ -1,5 +1,6 @@
 package com.joelcamargojr.androidhub.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -107,8 +108,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 return true;
-            case R.id.action_credits:
-                // TODO show ListenNotes image and Lottie
+            case R.id.action_favorites:
+                Intent startFavoritesIntent = new Intent(this, FavoritesActivity.class);
+                startActivity(startFavoritesIntent);
                 break;
         }
         return super.onOptionsItemSelected(item);

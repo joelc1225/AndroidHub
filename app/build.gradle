@@ -2,7 +2,20 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.firebase.firebase-perf'
 
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
+    signingConfigs {
+        config {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.joelcamargojr.androidhub"
@@ -15,13 +28,12 @@ android {
     buildTypes {
         debug {
             buildConfigField 'String', "ApiKey", AndroidHub_ApiKey
-
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', "ApiKey", AndroidHub_ApiKey
-
+            signingConfig signingConfigs.config
         }
     }
     dataBinding {
@@ -33,7 +45,6 @@ android {
         }
     }
     buildToolsVersion '28.0.3'
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
