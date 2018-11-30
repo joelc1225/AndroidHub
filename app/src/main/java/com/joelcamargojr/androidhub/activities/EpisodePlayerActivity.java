@@ -149,7 +149,7 @@ public class EpisodePlayerActivity extends AppCompatActivity {
         //TODO Query the ROOM database with the title of the Episode that is currently displaying to see
         // if its already in the database. If it is, we want to change the bookmark image to be filled in.
         Timber.d("ABOUT TO ASYNC FOR SINGLE EPISODE");
-        new querySingleEpisodeAsyncTask().execute(currentEpisode.title);
+        new querySingleEpisodeAsyncTask().execute(currentEpisode.id);
     }
 
     // Checks state of app and variables to determine how we should setup the  activity

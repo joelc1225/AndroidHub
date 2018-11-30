@@ -60,9 +60,9 @@ public class Repository {
         new deleteAsyncTask().execute(episode);
     }
 
-    public Episode getSingleEpisodeById(String episodeTitle) {
+    public Episode getSingleEpisodeById(String id) {
         Timber.d("QUERYING DB FOR SINGLE ITEM FROM REPO");
-        return mEpisodeDao.getSingleEpisodeById(episodeTitle);
+        return mEpisodeDao.getSingleEpisodeById(id);
     }
 
     // Fulfills rubric requirement of using asyncTask

@@ -13,14 +13,14 @@ import androidx.room.PrimaryKey;
 @Parcel
 public class Episode {
 
-    @PrimaryKey
     @SerializedName("title")
-    @NonNull
     public String title;
     @SerializedName("audio")
     public String audioUrl;
     @SerializedName("audio_length")
     public int audio_length;
+    @PrimaryKey
+    @NonNull
     @SerializedName("id")
     public String id;
     @SerializedName("description")
