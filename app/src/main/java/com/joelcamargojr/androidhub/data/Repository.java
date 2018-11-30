@@ -60,6 +60,7 @@ public class Repository {
         new deleteAsyncTask().execute(episode);
     }
 
+    // Gets single episode from database
     public Episode getSingleEpisodeById(String id) {
         Timber.d("QUERYING DB FOR SINGLE ITEM FROM REPO");
         return mEpisodeDao.getSingleEpisodeById(id);
