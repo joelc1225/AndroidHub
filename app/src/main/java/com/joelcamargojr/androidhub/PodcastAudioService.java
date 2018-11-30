@@ -58,7 +58,7 @@ public class PodcastAudioService extends Service {
     MediaMetadataCompat metadataCompat;
     SharedPreferences mSharedPreferences;
     SharedPreferences.Editor mEditor;
-    String mAudioUrlString;
+//    String mAudioUrlString;
 
     @Override
     public void onCreate() {
@@ -69,11 +69,11 @@ public class PodcastAudioService extends Service {
 
         mSharedPreferences = context.getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
 
-        if (mSharedPreferences.contains(getString(R.string.last_played_audioUrl_key))) {
-
-            mAudioUrlString =
-                    mSharedPreferences.getString(getString(R.string.last_played_audioUrl_key), null);
-        }
+//        if (mSharedPreferences.contains(getString(R.string.last_played_audioUrl_key))) {
+//
+//            mAudioUrlString =
+//                    mSharedPreferences.getString(getString(R.string.last_played_audioUrl_key), null);
+//        }
 
 
         // Gets system audio service and creates audio focus request for future reference

@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.media.MediaMetadataCompat;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
@@ -49,7 +48,6 @@ public class EpisodePlayerActivity extends AppCompatActivity {
     @SuppressLint("StaticFieldLeak")
     public static PlayerPodcastBinding binding;
     public static Episode currentEpisode;
-    private MediaMetadataCompat mediaMetadataCompat;
     @SuppressLint("StaticFieldLeak")
     public static SimpleExoPlayer player;
     public static String mLastEpisodePlayed;
@@ -254,7 +252,7 @@ public class EpisodePlayerActivity extends AppCompatActivity {
             setupLayout(currentEpisode);
         }
         binding.episodePlayerProgressbar.setVisibility(View.INVISIBLE);
-        mediaMetadataCompat = MetaDataUtils.setMetaDataForMediaSession(this, currentEpisode);
+        MetaDataUtils.setMetaDataForMediaSession(this, currentEpisode);
     }
 
     private void setupPlayer() {

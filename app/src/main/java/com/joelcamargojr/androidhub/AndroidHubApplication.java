@@ -4,7 +4,7 @@ import android.app.Application;
 
 import timber.log.Timber;
 
-class AndroidHubApplication extends Application {
+public class AndroidHubApplication extends Application {
 
     @Override
     public void onCreate() {

@@ -12,20 +12,16 @@ public class MetaDataUtils  {
 
     private static MediaMetadataCompat mediaMetadataCompat;
 
-    public static MediaMetadataCompat setMetaDataForMediaSession(
+    public static void setMetaDataForMediaSession(
             Context context, Episode podcastEpisode) {
 
         // If fresh startup, creates new metadata object
         if (mediaMetadataCompat == null) {
             updateMetaData(context, podcastEpisode);
-            return mediaMetadataCompat;
         } else {
             // Check if Episode data is different to see if updating is necessary
-            if (mediaMetadataCompat.getString(MediaMetadataCompat.METADATA_KEY_TITLE).equals(podcastEpisode.title)) {
-                return mediaMetadataCompat;
-            } else {
+            if (!mediaMetadataCompat.getString(MediaMetadataCompat.METADATA_KEY_TITLE).equals(podcastEpisode.title)) {
                 updateMetaData(context, podcastEpisode);
-                return mediaMetadataCompat;
             }
         }
     }
