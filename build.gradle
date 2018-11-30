@@ -7,7 +7,11 @@ buildscript {
         jcenter()
     }
     dependencies {
+
         classpath 'com.android.tools.build:gradle:3.2.1'
+        classpath 'com.google.firebase:firebase-plugins:1.1.5'
+        classpath 'com.google.gms:google-services:4.0.1'
+
         
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -21,13 +25,10 @@ allprojects {
         jcenter()
     }
 
-    afterEvaluate {
-        tasks.withType(JavaCompile.class) {
-            options.compilerArgs << "-Xmaxerrs" << "500"
-        }
-    }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+

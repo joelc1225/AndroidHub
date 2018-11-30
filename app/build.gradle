@@ -1,6 +1,21 @@
+//noinspection UnusedResources
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.firebase.firebase-perf'
+
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
+    signingConfigs {
+        config {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.joelcamargojr.androidhub"
@@ -9,6 +24,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.config
     }
     buildTypes {
         debug {
@@ -18,22 +34,35 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', "ApiKey", AndroidHub_ApiKey
+            signingConfig signingConfigs.config
         }
     }
-
     dataBinding {
         enabled = true
+    }
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile.class) {
+            options.compilerArgs << "-Xmaxerrs" << "10000"
+        }
+    }
+    buildToolsVersion '28.0.3'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    productFlavors {
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.google.android.material:material:1.1.0-alpha01'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
     implementation 'androidx.media:media:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.exifinterface:exifinterface:1.0.0'
+    implementation 'com.google.android.gms:play-services-maps:16.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
@@ -48,6 +77,7 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.8.1'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.8.1'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.8.1'
+    implementation 'com.google.android.exoplayer:extension-mediasession:2.8.1'
     // Recyclerview
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     // Parceler
@@ -55,4 +85,15 @@ dependencies {
     annotationProcessor 'org.parceler:parceler:1.1.6'
     // Timber
     implementation 'com.jakewharton.timber:timber:4.7.1'
+    // ViewModel, LiveData, and Room
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.room:room-runtime:2.1.0-alpha02'
+    annotationProcessor 'androidx.room:room-compiler:2.1.0-alpha02'
+    // Lottie
+    def lottieVersion = "2.8.0"
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+    // TWO Firebase services to satisfy rubric requirement
+    implementation 'com.google.firebase:firebase-core:16.0.5'
+    implementation 'com.google.firebase:firebase-perf:16.2.1'
 }
+apply plugin: 'com.google.gms.google-services'

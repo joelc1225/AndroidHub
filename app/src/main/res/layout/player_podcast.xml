@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/bookmark_animationView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/scrollView_episode_player"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:lottie_autoPlay="false"
+            app:lottie_colorFilter="@color/colorBlack"
+            app:lottie_fileName="bookmark_animation.json"
+            app:lottie_loop="false" />
+
+        <ProgressBar
+            android:id="@+id/episode_player_progressbar"
+            android:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/imageView_podcast"
+            android:layout_width="0dp"
+            android:layout_height="223dp"
+            android:background="@drawable/photo_scrim"
+            android:contentDescription="@string/podcast_image_descrip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@color/colorPrimary" />
+
+        <TextView
+            android:id="@+id/player_podcast_title_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.507"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="This is the Title of the podcast episode" />
+
+        <com.google.android.exoplayer2.ui.PlayerControlView
+            android:id="@+id/player_controlView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:fastforward_increment="10000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:rewind_increment="10000"
+            app:show_timeout="0">
+
+        </com.google.android.exoplayer2.ui.PlayerControlView>
+
+        <ScrollView
+            android:id="@+id/scrollView_episode_player"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="8dp"
+            android:maxHeight="130dp"
+            app:layout_constraintBottom_toTopOf="@+id/player_controlView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView_podcast">
+
+            <TextView
+                android:id="@+id/player_podcast_descrip_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/episode_description_label"
+                tools:text="This is a brief description of the podcast and what it is about. I need more info to type to see how this wraps. My name is blah blah blah and this episode is about really cool android stuff. I cant wait for you guys to listen to this episode about really awesome Android stuff" />
+
+        </ScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
