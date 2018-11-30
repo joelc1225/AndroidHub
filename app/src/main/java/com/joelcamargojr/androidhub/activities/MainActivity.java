@@ -9,18 +9,15 @@ import android.widget.Toast;
 import com.joelcamargojr.androidhub.R;
 import com.joelcamargojr.androidhub.Utils.InjectorUtils;
 import com.joelcamargojr.androidhub.databinding.ActivityMainBinding;
-import com.joelcamargojr.androidhub.model.Podcast;
 import com.joelcamargojr.androidhub.recyclerview.MainRecyclerviewAdapter;
 import com.joelcamargojr.androidhub.viewModels.MainActivityViewModel;
 import com.joelcamargojr.androidhub.viewModels.MainViewModelFactory;
 
 import java.util.Objects;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,24 +44,24 @@ public class MainActivity extends AppCompatActivity {
         mViewModel = ViewModelProviders.of(this, factory).get(MainActivityViewModel.class);
 
         // Gets/Observes Podcast data needed to inflate UI with API call
-        mViewModel.getPodcastData().observe(this, new Observer<Podcast>() {
-            @Override
-            public void onChanged(@Nullable final Podcast podcast) {
+        mViewModel.getPodcastData().observe(this, podcast -> {
 
-                mBinding.mainProgressbar.setVisibility(View.INVISIBLE);
+            mBinding.mainProgressbar.setVisibility(View.INVISIBLE);
 
-                if (podcast != null) {
-                    bindUi();
-                } else {
-                    mBinding.retryButton.setVisibility(View.VISIBLE);
-                    mBinding.retryButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Toast.makeText(getApplicationContext(), "Retrying Request", Toast.LENGTH_LONG).show();
-                            //TODO retry request somehow
+            if (podcast != null) {
+                bindUi();
+            } else {
+                mBinding.retryButton.setVisibility(View.VISIBLE);
+                mBinding.retryButton.setOnClickListener(v -> {
+
+                    Toast.makeText(getApplicationContext(), R.string.retrying_request_toast, Toast.LENGTH_LONG).show();
+                    mViewModel.retryApiCall().observe(MainActivity.this, podcast1 -> {
+                        if (podcast1 != null) {
+                            mBinding.retryButton.setVisibility(View.INVISIBLE);
+                            bindUi();
                         }
                     });
-                }
+                });
             }
         });
 
@@ -75,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     private void bindUi() {
         mViewModel.setEpisodesList();
         RecyclerView recyclerView = mBinding.recyListenFrag;
@@ -84,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -98,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 return true;
             case R.id.action_credits:
-                Toast.makeText(this, "CREDITS CLICKED", Toast.LENGTH_SHORT).show();
+                // TODO show ListenNotes image and Lottie
                 break;
         }
         return super.onOptionsItemSelected(item);

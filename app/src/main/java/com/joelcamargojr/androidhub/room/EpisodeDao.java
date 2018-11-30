@@ -1,14 +1,15 @@
 package com.joelcamargojr.androidhub.room;
 
+import com.joelcamargojr.androidhub.model.Episode;
+
+import java.util.List;
+
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-
-import com.joelcamargojr.androidhub.model.Episode;
-
-import java.util.List;
 
 @Dao
 public interface EpisodeDao {
@@ -20,9 +21,9 @@ public interface EpisodeDao {
     // Queries for one episode item based off title ID
     // Used only to verify if an entry already exists in database
     @Query("SELECT * FROM episodes WHERE id = :id")
-    Episode getFavoriteEpisodeById(String id);
+    LiveData<Episode> getFavoriteEpisodeById(String id);
 
-    @Insert
+    @Insert (onConflict = OnConflictStrategy.IGNORE)
     void insertEpisode(Episode episode);
 
     @Delete

@@ -1,12 +1,12 @@
 package com.joelcamargojr.androidhub.room;
 
-import androidx.room.Database;
-import androidx.room.Room;
-import androidx.room.RoomDatabase;
 import android.content.Context;
 
 import com.joelcamargojr.androidhub.model.Episode;
 
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 import timber.log.Timber;
 
 // Database that will hold the user's favorite episodes
@@ -29,7 +29,7 @@ public abstract class EpisodeDatabase extends RoomDatabase{
 
                 Timber.d(" FINISHED CREATING DATABASE");
             }
-        }
+        } else Timber.d("DATABASE ALREASY EXISTS. RETURNING SAME INSTANCE");
         return sInstance;
     }
 

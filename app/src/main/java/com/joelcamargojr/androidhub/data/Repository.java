@@ -15,11 +15,10 @@ import timber.log.Timber;
 public class Repository {
 
     // For singleton instantiation
-    private EpisodeDao mEpisodeDao;
+    private static EpisodeDao mEpisodeDao;
     private NetworkDatasource mNetworkDatasource;
     private static final Object LOCK = new Object();
     private static Repository sInstance;
-
     private MutableLiveData<Podcast> mPodcast;
 
     private Repository(EpisodeDao episodeDao, NetworkDatasource networkDatasource) {
@@ -55,27 +54,32 @@ public class Repository {
 
     // Inserts new favorite episode to Room database
     public void insertFavorite(Episode episode) {
-        new insertAsyncTask(mEpisodeDao).execute(episode);
+        Timber.d("STARTING INSERT METHOD REPO");
+        new insertAsyncTask().execute(episode);
     }
 
     // Deletes episode from favorites database
     public void deleteFavorite(Episode episode) {
-        new deleteAsyncTask(mEpisodeDao).execute(episode);
+        Timber.d("STARTING INSERT METHOD REPO");
+        new deleteAsyncTask().execute(episode);
+    }
+
+    public LiveData<Episode> checkIfFavorite(String episodeTitle) {
+        Timber.d("QUERYING FOR POSSIBLE FAVORITE");
+        return mEpisodeDao.getFavoriteEpisodeById(episodeTitle);
     }
 
     // Fulfills rubric requirement of using asyncTask
     // Adds episode to favorites database
     private static class insertAsyncTask extends AsyncTask<Episode, Void, Void> {
 
-        private EpisodeDao mAsyncTaskDao;
-
-        insertAsyncTask(EpisodeDao dao) {
-            mAsyncTaskDao = dao;
-        }
+        // Constructor
+        insertAsyncTask() {}
 
         @Override
         protected Void doInBackground(final Episode... params) {
-            mAsyncTaskDao.insertEpisode(params[0]);
+            Timber.d("INSIDE INSERT DIB: %s", params[0].title);
+            mEpisodeDao.insertEpisode(params[0]);
             return null;
         }
     }
@@ -84,15 +88,14 @@ public class Repository {
     // Deletes episode from favorites database
     private static class deleteAsyncTask extends AsyncTask<Episode, Void, Void> {
 
-        private EpisodeDao mAsyncTaskDao;
-
-        deleteAsyncTask(EpisodeDao dao) {
-            mAsyncTaskDao = dao;
-        }
+        // Constructor
+        deleteAsyncTask() {}
 
         @Override
         protected Void doInBackground(final Episode... params) {
-            mAsyncTaskDao.deleteEpisode(params[0]);
+            Timber.d("INSIDE DELETE DIB: %s", params[0].title);
+
+            mEpisodeDao.deleteEpisode(params[0]);
             return null;
         }
     }

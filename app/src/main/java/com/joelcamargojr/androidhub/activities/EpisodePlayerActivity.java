@@ -23,9 +23,12 @@ import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.joelcamargojr.androidhub.PodcastAudioService;
 import com.joelcamargojr.androidhub.R;
 import com.joelcamargojr.androidhub.Utils.ExoPlayerUtils;
+import com.joelcamargojr.androidhub.Utils.InjectorUtils;
 import com.joelcamargojr.androidhub.Utils.MetaDataUtils;
 import com.joelcamargojr.androidhub.databinding.PlayerPodcastBinding;
 import com.joelcamargojr.androidhub.model.Episode;
+import com.joelcamargojr.androidhub.viewModels.EpisodePlayerActivityViewModel;
+import com.joelcamargojr.androidhub.viewModels.EpisodePlayerViewModelFactory;
 import com.joelcamargojr.androidhub.widget.WidgetProvider;
 import com.squareup.picasso.Picasso;
 
@@ -35,6 +38,8 @@ import java.util.Objects;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import timber.log.Timber;
 
 public class EpisodePlayerActivity extends AppCompatActivity {
@@ -58,9 +63,8 @@ public class EpisodePlayerActivity extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
     SharedPreferences.Editor sharedPrefsEditor;
     private static String audioUrlString;
-
-    //test boolean
-    boolean isBookmarked = false;
+    boolean isFavorite = false;
+    EpisodePlayerActivityViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,32 +74,34 @@ public class EpisodePlayerActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         mSharedPreferences = this.getSharedPreferences(getString(R.string.app_name), MODE_PRIVATE);
 
-
         binding.episodePlayerProgressbar.setVisibility(View.VISIBLE);
-        binding.bookmarkAnimationView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!isBookmarked) {
-                    Timber.d("BOOKMARKING");
-                    binding.bookmarkAnimationView.setSpeed(1);
-                    binding.bookmarkAnimationView.playAnimation();
-                    isBookmarked = true;
-                } else {
-                    Timber.d("UNBOOKMARKING");
-                    binding.bookmarkAnimationView.setSpeed(-2f);
-                    isBookmarked = false;
-                    binding.bookmarkAnimationView.playAnimation();
-                }
-
-
-            }
-        });
 
         getBundleAndExtractEpisodeData();
+
+        setupViewModel();
 
         precheckForActivitySetup(savedInstanceState);
 
         setupActivity();
+
+
+        binding.bookmarkAnimationView.setOnClickListener(v -> {
+            if (!isFavorite) {
+                Timber.d("BOOKMARKING");
+                binding.bookmarkAnimationView.setSpeed(1);
+                binding.bookmarkAnimationView.playAnimation();
+                mViewModel.insertFavorite(currentEpisode);
+                isFavorite = true;
+            } else {
+                Timber.d("UNBOOKMARKING");
+                binding.bookmarkAnimationView.setSpeed(-2f);
+                binding.bookmarkAnimationView.playAnimation();
+                mViewModel.deleteFavorite(currentEpisode);
+                isFavorite = false;
+            }
+        });
+
+
     }
 
     // Gets Episode data from intent and extracts out necessary data
@@ -107,6 +113,7 @@ public class EpisodePlayerActivity extends AppCompatActivity {
         if (bundle != null) {
             if (bundle.containsKey(getString(R.string.episode_key))) {
                 Timber.d("BUNDLE CONTAINS EPISODE!");
+
                 // Gets episode data passed in from recyclerview
                 currentEpisode = Parcels.unwrap(bundle.getParcelable(getString(R.string.episode_key)));
 
@@ -126,7 +133,34 @@ public class EpisodePlayerActivity extends AppCompatActivity {
         }
     }
 
-    // Checks state of app and variables to determine how we should setup activity
+    private void setupViewModel() {
+        EpisodePlayerViewModelFactory factory = new EpisodePlayerViewModelFactory(InjectorUtils.provideRepository(this), currentEpisode);
+        mViewModel = ViewModelProviders.of(this, factory).get(EpisodePlayerActivityViewModel.class);
+        // Sets the current episode data for the ViewModel
+        mViewModel.setEpisodeMutableLiveData(currentEpisode);
+        // Checks is the current episode is in our Favorites database
+        //TODO Query the ROOM database with the title of the Episode that is currently displaying to see
+        // if its already in the database. If it is, we want to change the bookmark image to be filled in.
+        mViewModel.checkIfFavorite(currentEpisode.title).observe(this, new Observer<Episode>() {
+            @Override
+            public void onChanged(Episode episode) {
+                Timber.d("INSIDE ON CHANGED");
+                if (episode == null) {
+                    Timber.d("EPISODE NOT IN DATABASE");
+                    // Do nothing
+                } else {
+                    Timber.d("EPISIDE ISSSSS IN DATABASE");
+                    // Set bookmark animationView to be filled in and ready to reverse animation
+                    binding.bookmarkAnimationView.setProgress(1);
+                    binding.bookmarkAnimationView.setFrame(49);
+                    binding.bookmarkAnimationView.setSpeed(-2);
+                    isFavorite = true;
+                }
+            }
+        });
+    }
+
+    // Checks state of app and variables to determine how we should setup the  activity
     private void precheckForActivitySetup(Bundle savedInstanceState) {
         Timber.d("PRECHECK STARTING");
         // Resets booleans to defaults before checking state of
@@ -211,22 +245,22 @@ public class EpisodePlayerActivity extends AppCompatActivity {
             // Checks if the episode data is the same before setup
             if (mIsFreshSetup || mStartedFromWidget) {
                 setupPlayer();
-                setupActivityLayout(currentEpisode);
+                setupLayout(currentEpisode);
             } else if (mIsCurrentlyPlayingThisEpisode) {
                 // Already playing the same episode. Just need to set up views
-                setupActivityLayout(currentEpisode);
+                setupLayout(currentEpisode);
             } else {
                 // Handles orientation changes or setting up last played episode
                 setupPlayer();
-                setupActivityLayout(currentEpisode);
+                setupLayout(currentEpisode);
                 player.setPlayWhenReady(mPlayWhenReady);
                 player.seekTo(mPlayerWindow, mPlayerPosition);
             }
         } else {
             // Started from notification click. Player is already setup. Just need to inflate views
-            setupActivityLayout(currentEpisode);
+            setupLayout(currentEpisode);
         }
-
+        binding.episodePlayerProgressbar.setVisibility(View.INVISIBLE);
         mediaMetadataCompat = MetaDataUtils.setMetaDataForMediaSession(this, currentEpisode);
     }
 
@@ -260,7 +294,7 @@ public class EpisodePlayerActivity extends AppCompatActivity {
         logPlayerState();
     }
 
-    private void setupActivityLayout(Episode episode) {
+    private void setupLayout(Episode episode) {
         if (episode != null) {
             Picasso.get()
                     .load(R.drawable.fragmented_image)
@@ -302,9 +336,6 @@ public class EpisodePlayerActivity extends AppCompatActivity {
                 binding.playerControlView.setPlayer(player);
             }
         }
-
-        // todo doesnt do anything
-        binding.episodePlayerProgressbar.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -418,8 +449,7 @@ public class EpisodePlayerActivity extends AppCompatActivity {
                             .putExtra(getString(R.string.last_played_position_key), mPlayerPosition)
                             .putExtra(getString(R.string.started_from_widget_key), mStartedFromWidget));
                 }
-            }
-            else {
+            } else {
                 // User has either clicked pause, rewind, or fastforward
                 Timber.d("SEEKED, PAUSED, FF, or RW");
                 // updates the episode data to SharedPreferences in case we need to rebuild

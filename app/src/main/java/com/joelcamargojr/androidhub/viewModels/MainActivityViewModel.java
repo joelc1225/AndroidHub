@@ -16,7 +16,7 @@ public class MainActivityViewModel extends ViewModel {
     private static MutableLiveData<Podcast> mPodcastData = new MutableLiveData<>();
     private static MutableLiveData<ArrayList<Episode>> mEpisodes = new MutableLiveData<>();
 
-    public MainActivityViewModel(Repository repository) {
+    MainActivityViewModel(Repository repository) {
         mRepository = repository;
         mPodcastData = mRepository.getPodcastFromApi();
     }
@@ -32,5 +32,9 @@ public class MainActivityViewModel extends ViewModel {
 
     public MutableLiveData<ArrayList<Episode>> getEpisodesList() {
         return mEpisodes;
+    }
+
+    public MutableLiveData<Podcast> retryApiCall() {
+        return mRepository.getPodcastFromApi();
     }
 }

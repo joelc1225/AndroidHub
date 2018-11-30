@@ -42,4 +42,5 @@
     <string name="started_from_widget_key">started_from_widget_key</string>
     <string name="retry_connection">Retry Connection</string>
     <string name="title_activity_maps">Map</string>
+    <string name="retrying_request_toast">Retrying Request</string>
 </resources>
