@@ -58,6 +58,9 @@ public class MainRecyclerviewAdapter extends RecyclerView.Adapter<MainRecyclervi
         // Sets the click listener to open the episode player activity
         holder.constraintLayout.setOnClickListener(v -> {
             Intent goToPlayerIntent = new Intent(mContext, EpisodePlayerActivity.class);
+
+            // TODO ADDED FLAG TO FIX REVIEW REQUIREMENT
+            goToPlayerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             Bundle bundle = new Bundle();
             bundle.putParcelable("episode", Parcels.wrap(currentEpisode));
             goToPlayerIntent.putExtra("bundle", bundle);

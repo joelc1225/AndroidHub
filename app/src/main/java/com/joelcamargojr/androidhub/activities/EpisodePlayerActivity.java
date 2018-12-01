@@ -446,8 +446,13 @@ public class EpisodePlayerActivity extends AppCompatActivity {
                 Timber.d("SEEKED, PAUSED, FF, or RW");
                 // updates the episode data to SharedPreferences in case we need to rebuild
                 // the player\activity later
-                if (player.getCurrentPosition() != 0) {
+
+                // TODO fixed this to check for null and log that to avoid crash
+                // Will Implement better fix later
+                if (player != null && player.getCurrentPosition() != 0) {
                     saveEpisodeToSharedPrefs();
+                } else {
+                    Timber.d("Player is null! Proboably loading");
                 }
 
             }
@@ -506,7 +511,8 @@ public class EpisodePlayerActivity extends AppCompatActivity {
     private static class querySingleEpisodeAsyncTask extends AsyncTask<String, Void, Episode> {
 
         // Constructor
-        querySingleEpisodeAsyncTask() {}
+        querySingleEpisodeAsyncTask() {
+        }
 
         @Override
         protected Episode doInBackground(String... strings) {

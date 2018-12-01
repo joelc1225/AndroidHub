@@ -2,18 +2,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.firebase.firebase-perf'
 
-
-def keystorePropertiesFile = rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-
+// TODO
+// Hardcoded keystore info for easier review and stored the keystore in the root with a relative path
 android {
     signingConfigs {
         config {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile file(keystoreProperties['storeFile'])
-            storePassword keystoreProperties['storePassword']
+            keyAlias 'key1'
+            keyPassword 'ahkeystore'
+            storeFile file("$rootDir/keystore2")
+            storePassword 'ahkeystore'
         }
     }
     compileSdkVersion 28
