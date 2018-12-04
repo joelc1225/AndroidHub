@@ -49,7 +49,7 @@ public class MainRecyclerviewAdapter extends RecyclerView.Adapter<MainRecyclervi
         final Episode currentEpisode = Objects.requireNonNull(mEpisodesArrayList.getValue()).get(position);
 
         // Using saved drawable instead of imageUrl for highRes
-        Picasso.get().load(R.drawable.fragmented_image)
+        Picasso.get().load(R.drawable.fragmented_image).fit()
                 .into(holder.imageView);
 
         holder.sourceNameTextview.setText(mContext.getString(R.string.label_fragmented_podcast));
@@ -59,7 +59,6 @@ public class MainRecyclerviewAdapter extends RecyclerView.Adapter<MainRecyclervi
         holder.constraintLayout.setOnClickListener(v -> {
             Intent goToPlayerIntent = new Intent(mContext, EpisodePlayerActivity.class);
 
-            // TODO ADDED FLAG TO FIX REVIEW REQUIREMENT
             goToPlayerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             Bundle bundle = new Bundle();
             bundle.putParcelable("episode", Parcels.wrap(currentEpisode));
