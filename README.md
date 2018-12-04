@@ -13,5 +13,5 @@ This app uses the following 3rd part libraries:
 - Timber
 - Lottie
 
-This project is implented using the MVVM app architecture with ROOM database, LiveData, and ViewModels.
+This project is implemented using the MVVM app architecture with ROOM database, LiveData, and ViewModels.
 
