@@ -1,17 +1,18 @@
-# androidHub-udacity-capstone
-This is an app that plays recent episodes from my favorite Android podcast called "Fragmented". I eventually want to expand the app to include more Android podcasts and other resources.
+# AndroidHub
+This is an app that plays recent episodes from my favorite Android podcast called "Fragmented"
 
-**GET YOUR API KEY FOR THIS APP AT THE LINK BELOW**
+## Getting started
+**GET YOUR API KEY FOR THIS APP AT:**
 https://www.listennotes.com/api/
 
-This app uses the following 3rd part libraries:
+## Built with:
 
-- Picasso
-- Retrofit
-- ExoPlayer
-- Parceler
-- Timber
-- Lottie
+- Picasso - Handles image loading
+- Retrofit - Handles communicating with the API service
+- ExoPlayer - Plays audio and handles background audio via Service class
+- Parceler - Made working with parcelable objects easier
+- Timber - For simple logging convenience
+- Lottie - Used for bookmark animation
 
 This project is implemented using the MVVM app architecture with ROOM database, LiveData, and ViewModels.
 
