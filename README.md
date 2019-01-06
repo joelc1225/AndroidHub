@@ -24,12 +24,12 @@ The following GIF shows the notification and Exoplayer functionality which utili
 
 ## Background audio and notification control
 
-This GIF shows me navigating away from the app, but still having the audio play while the app is in the background. Although you can't here the audio, you can see the playback progress in the notification controller. I can still control the audio while it's playing in the background with the notification controller and I can return to the app by pressing the center of the notification.
+This GIF shows me navigating away from the app, but still having the audio play while the app is in the background. Although you can't hear the audio, you can see the playback progress in the notification controller. I can still control the audio while it's playing in the background with the notification controller and I can return to the app by pressing the center of the notification.
 
 ![](notiBackground.gif)
 
 ## ROOM database
 
-I implemented a bookmarking feature using ROOM database. In the following GIF, you can see at the start of the GIF that there are no favorites, then i add two, and finally I remove one to show the UI responds immediately to the changes in the database.
+I implemented a bookmarking feature using ROOM database. In the following GIF, you can see at the start of the GIF that there are no favorites, then I add two, and finally I remove one to show the UI responds immediately to the changes in the database.
 
 ![](database.gif)
