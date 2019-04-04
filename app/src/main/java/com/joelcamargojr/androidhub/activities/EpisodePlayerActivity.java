@@ -45,6 +45,8 @@ import timber.log.Timber;
 
 public class EpisodePlayerActivity extends AppCompatActivity {
 
+    // TODO fix - Manifest merger failed with multiple errors, see logs
+
     @SuppressLint("StaticFieldLeak")
     public static PlayerPodcastBinding binding;
     public static Episode currentEpisode;
@@ -148,7 +150,7 @@ public class EpisodePlayerActivity extends AppCompatActivity {
         mIsFavorite = false;
 
         // Checks if the current episode is in our Favorites database
-        // Query the ROOM database with the title of the selceted Episode to see
+        // Query the ROOM database with the title of the selected Episode to see
         // if its already in the database. If it is, we want to change the bookmark image to be filled in.
         Timber.d("ABOUT TO ASYNC FOR SINGLE EPISODE");
         new querySingleEpisodeAsyncTask().execute(currentEpisode.id);

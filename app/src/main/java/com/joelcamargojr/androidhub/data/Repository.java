@@ -23,7 +23,6 @@ public class Repository {
     private Repository(EpisodeDao episodeDao, NetworkDatasource networkDatasource) {
         mEpisodeDao = episodeDao;
         mNetworkDatasource = networkDatasource;
-
     }
 
     public synchronized static Repository getInstance(EpisodeDao episodeDao, NetworkDatasource networkDatasource) {
