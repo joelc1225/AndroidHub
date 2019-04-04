@@ -32,7 +32,7 @@ public class RetrofitApi {
                     .create();
 
             retrofit = new Retrofit.Builder()
-                    .baseUrl("https://listennotes.p.mashape.com/")
+                    .baseUrl("https://listen-api.listennotes.com")
                     .addConverterFactory(GsonConverterFactory
                             .create(gson))
                     .client(client)

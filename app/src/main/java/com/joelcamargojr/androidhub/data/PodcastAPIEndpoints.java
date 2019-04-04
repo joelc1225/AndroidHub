@@ -12,9 +12,9 @@ public interface PodcastAPIEndpoints {
 
 
     @Headers({
-            "X-Mashape-Key:" + BuildConfig.ApiKey,
+            "X-ListenAPI-Key:" + BuildConfig.ApiKey,
             "Accept: application/json"
     })
-    @GET("api/v1/podcasts/{podcast_id}/")
+    @GET("api/v2/podcasts/{podcast_id}/")
     Call<Podcast> getFragmentedPodcast(@Path("podcast_id") String id);
 }
